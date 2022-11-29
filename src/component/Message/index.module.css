@@ -1,0 +1,38 @@
+.messageItem {
+    /*background: lightslategray;*/
+    margin: 10px 0;
+    display: flex;
+}
+
+.item {
+
+    position: relative;
+    left: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 6px 16px 0 rgb(0 0 0 /8%), 0 3px 6px -4px rgb(0 0 0 / 12%), 0 9px 28px 8px rgb(0 0 0 / 5%);
+}
+
+.item:after{
+    content: "";
+    position: absolute;
+    left: -20px;
+    top: 10px;
+    border: 10px solid transparent;
+    border-right: 10px solid rgb(0 0 0 /8%);
+
+
+}
+
+
+.userName {
+    font-weight: bolder;
+    border-bottom: 1px solid;
+}
+
+.messageContent {
+    margin: 10px;
+    max-width: 300px;
+    text-align: center;
+}
+

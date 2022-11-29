@@ -1,0 +1,26 @@
+.container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid black;
+
+}
+.logoTitle{
+   display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.userName{
+    padding: 0 20px ;
+}
+
+.logo{
+   height: 50px;
+}
+
+.title{
+    font-size: 36px;
+    padding: 0 10px;
+}
