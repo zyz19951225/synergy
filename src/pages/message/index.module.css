@@ -16,7 +16,8 @@
 }
 
 .sendMessage {
-    border: 1px solid black;
+    border: 2px solid black;
+    border-radius: 4px;
     width: 50%;
     display: flex;
     flex-direction: column;

@@ -9,6 +9,7 @@
     flex: 1;
     border: solid 1px black;
     margin: 10%;
+    border-radius: 10px;
 }
 
 .loginTitle{

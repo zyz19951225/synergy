@@ -18,7 +18,7 @@ const Header = () => {
 
     return (
         <div className={style['container']}>
-            <div className={style.logoTitle}>
+            <div className={style.logoTitle} >
                 <img src={logo} className={style['logo']}/>
                 <span className={style['title']}>天地协同</span>
             </div>

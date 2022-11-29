@@ -24,20 +24,14 @@ interface MessageParams {
 }
 
 const props: UploadProps = {
-    name: 'file',
     action: 'https://mock.mengxuegu.com/mock/618c70f84c5d9932f7e75d90/example/createNewJob',
-    headers: {
-        authorization: 'authorization-text',
-    },
     showUploadList: false,
-
 };
 
 const layout = {
     labelCol: { span: 10 },
     wrapperCol: { span: 14 },
 };
-
 
 
 const SendMessage = () => {
@@ -96,10 +90,10 @@ const SendMessage = () => {
     }
 
     const sendMessage = () => {
+        console.log(form.getFieldsValue())
         setMessageList([...messageList, messageItem])
         setMessageItem({content: "", head: "", username: ""})
     }
-
 
     const getUrl = (file:File)=>{
         getBase64(file).then(
@@ -151,10 +145,17 @@ const SendMessage = () => {
                                    labelAlign='left'
                                    name="control-hooks"
                                    onFinish={onFinish}>
-                            {Object.entries(factors).map((key, index) => {
+                            {Object.entries(factors).map((key) => {
                                 return (
-                                    <Form.Item name={key[0]} label={key[0]} rules={[{ required: true }]} key={key[0]}>
-                                        <Input defaultValue={key[1]}/>
+                                    <Form.Item
+                                        style={{marginBottom:'10px'}}
+                                        name={key[0]}
+                                        label={key[0]}
+                                        rules={[{ required: true }]}
+                                        key={key[0]}
+                                        initialValue={key[1]}
+                                    >
+                                        <Input />
                                     </Form.Item>
                                 )
                             })}
