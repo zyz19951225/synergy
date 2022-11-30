@@ -5,7 +5,7 @@ import SendMessage from "../pages/message";
 const Login = lazy(() => import('../pages/login'))
 const AuthRecord = lazy(() => import('../pages/authRecord'))
 const HistoricalRoute = lazy(() => import('../pages/historicalRoute'))
-const Authentication = lazy(() => import('../pages/currentUser'))
+const AuthDetail = lazy(() => import('../pages/authDetail'))
 
 
 const getRoutes = () => {
@@ -19,8 +19,8 @@ const getRoutes = () => {
             component: <SendMessage/>
         },
         {
-            path: '/authInfo',
-            component: <Authentication/>
+            path: '/authDetail',
+            component: <AuthDetail/>
         },{
             path: '/authRecord',
             component: <AuthRecord/>

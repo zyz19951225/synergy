@@ -3,6 +3,15 @@ import style from './index.module.css'
 import Title from "../../component/Title";
 import {Button, Card, Form, Input, Select} from "antd";
 import {useNavigate} from "react-router-dom";
+import ajax from "../../utils/ajax";
+
+interface userInfo {
+    username:string,
+    password:string,
+    type:number
+}
+
+
 
 const Login = () => {
     const naviGate = useNavigate()
@@ -20,10 +29,15 @@ const Login = () => {
     const handleChange = (value: string) => {
         console.log(`selected ${value}`);
     };
-    const onFinish = (values: any) => {
-        console.log('Success:', values);
-        //登录成功跳转页面
-        naviGate('/sendMessage')
+    const onFinish = (values: userInfo) => {
+        ajax.post('/createNewJob').then(res=>{
+            console.log(res)
+            localStorage.setItem('user',values.username)
+            //登录成功跳转页面
+            naviGate('/sendMessage')
+        }).catch(res=>{
+            console.log(res)
+        })
 
     };
 

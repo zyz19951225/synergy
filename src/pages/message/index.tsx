@@ -82,6 +82,7 @@ const SendMessage = () => {
             }
             if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
+                console.log(previewImage)
                 //发出新的消息
                 setMessageList([...messageList,{username: "zhangyz", head: "zhangyz", content: previewImage}])
             } else if (info.file.status === 'error') {

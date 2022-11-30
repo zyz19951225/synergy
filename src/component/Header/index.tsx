@@ -3,12 +3,17 @@ import style from './index.module.css'
 import logo from '../../asserts/logo.png'
 import {DownOutlined, UserOutlined} from "@ant-design/icons";
 import {Avatar, Dropdown, MenuProps, message, Space} from "antd";
+import {useNavigate} from "react-router-dom";
 
 const Header = () => {
-    const onClick: MenuProps['onClick'] = ({ key }) => {
-        message.info(`Click on item ${key}`);
-    };
+    const naviGate = useNavigate()
 
+    const onClick: MenuProps['onClick'] = ({ key }) => {
+        if (key === '1'){
+            localStorage.removeItem('user')
+            naviGate('/')
+        }
+    };
     const items: MenuProps['items'] = [
         {
             label: '退出',
@@ -27,7 +32,7 @@ const Header = () => {
                 <Dropdown menu={{ items, onClick }} >
                     <a onClick={(e) => e.preventDefault()}>
                         <Space>
-                           admin
+                            {localStorage.getItem('user') || '未登录'}
                             <DownOutlined />
                         </Space>
                     </a>
