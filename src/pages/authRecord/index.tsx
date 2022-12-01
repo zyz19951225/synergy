@@ -1,10 +1,16 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import style from './index.module.css'
 import {Button, Form, Input, Pagination, Space, Table, Tag} from "antd";
 import {useNavigate} from 'react-router-dom'
 import {LockOutlined, UserOutlined} from "@ant-design/icons";
+import {GetAuthRecordList} from "../../api";
 
 interface DataType {
+    total:number;
+    current:number;
+    data:Array<RecordType>;
+}
+interface RecordType {
     key: string;
     username: string;
     address: string;
@@ -12,7 +18,19 @@ interface DataType {
     accesses:number;
 }
 
+
+
 const AuthRecord = () => {
+
+    const [userRecords,setUserRecords] = useState<DataType>({} as DataType)
+
+    useEffect(()=>{
+        //页面初始化获取认证记录
+        GetAuthRecordList<DataType>({username:''}).then(data=>{
+            setUserRecords(data)
+        })
+    },[])
+
     const gotoHistory = (value:string)=>{
         navigate("/authDetail?name="+value)
     }
@@ -21,22 +39,6 @@ const AuthRecord = () => {
         navigate("/detail")
     }
 
-    const dataSource = [
-        {
-            key: '1',
-            username: 'aaa',
-            lastLoginTime: (new Date()).toLocaleString(),
-            address: '西湖区湖底公园1号',
-            accesses:1
-        },
-        {
-            key: '2',
-            username: 'bbb',
-            lastLoginTime: (new Date()).toLocaleString(),
-            address: '西湖区湖底公园1号',
-            accesses:1
-        },
-    ];
     const columns = [
         {
             title: '用户名',
@@ -61,10 +63,10 @@ const AuthRecord = () => {
         {
             title: '操作',
             key: 'action',
-            render: (_:any,record:DataType) => (
+            render: (_:any,record:RecordType) => (
                 <Space size="middle">
-                    <Button type="link" onClick={()=>gotoHistory(record.username)}>历史轨迹</Button>
-                    <Button type="link" onClick={gotoDetail}>认证详情</Button>
+                    <Button type="link" onClick={()=>gotoHistory(record.username)}>认证详情</Button>
+                    <Button type="link" onClick={gotoDetail}>历史轨迹</Button>
                 </Space>
             ),
         },
@@ -72,6 +74,10 @@ const AuthRecord = () => {
     const [form] = Form.useForm();
     const onFinish = (values: any) => {
         console.log(values);
+        //根据参数查询数据
+        GetAuthRecordList<DataType>(values).then(data=>{
+            setUserRecords(data)
+        })
     };
     const navigate = useNavigate()
 
@@ -100,8 +106,8 @@ const AuthRecord = () => {
                 </Form>
             </div>
             <div className={style.recordTable}>
-                <Table dataSource={dataSource} columns={columns} pagination={false}/>
-                <Pagination defaultCurrent={1} total={50} />
+                <Table dataSource={userRecords.data} columns={columns} pagination={false}/>
+                <Pagination defaultCurrent={userRecords.current} total={userRecords.total} />
             </div>
 
         </div>

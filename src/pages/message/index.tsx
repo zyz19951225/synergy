@@ -5,7 +5,7 @@ import Header from "../../component/Header";
 import {PictureOutlined} from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import MessageItem from "../../component/Message";
-
+import {GetFactorInfo, SendMessageApi} from "../../api";
 
 
 const getBase64 = (file: any): Promise<string> =>
@@ -29,8 +29,8 @@ const props: UploadProps = {
 };
 
 const layout = {
-    labelCol: { span: 10 },
-    wrapperCol: { span: 14 },
+    labelCol: {span: 10},
+    wrapperCol: {span: 14},
 };
 
 
@@ -39,69 +39,61 @@ const SendMessage = () => {
     const [form] = Form.useForm();
     const [previewImage, setPreviewImage] = useState("");
     const [messageList, setMessageList] = useState<MessageParams[]>([])
-    const [messageItem, setMessageItem] = useState<MessageParams>({
-        content: "", head: "", username: ""
-    })
+    const [messageItem, setMessageItem] = useState('')
     // 监听聊天数据的变化，改变聊天容器元素的 scrollTop 值让页面滚到最底部
     useEffect(() => {
         const current = chatListRef.current!
         //scrollHeight是页面的高度
-         current['scrollTop'] = current['scrollHeight']
+        current['scrollTop'] = current['scrollHeight']
     }, [messageList])
 
     const onmessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setMessageItem({
-            content: e.target.value,
-            head: "zhangzy",
-            username: "zhangzy"
-        })
+        setMessageItem(e.target.value)
     }
-    const [factors] = useState(
-        {
-            "Traffic Volume": 347.414525393146,
-            "Service Type": 3.0,
-            "Transverse Index of BS": 6.0,
-            "Longitudinal Index of BS": 36.0,
-            "Distance between BS and User": 735.543015347981,
-            "Elevation between BS and Satellite": 2.13735084766429,
-            "Index of Satellite": 6.0,
-            "Velocity of User": 0.0169380413049092,
-            "Latitude of User": 760.716023215943,
-            "Longitude of User": 508.675233236697,
-            "Course": 0.0,
-            "Turn angle": 0.458683066843297,
-            "Overall speed": 0.0,
-            "Accelerated velocity": 0.552166518295338,
-            "Sinuosity": 1.0
+    const [factors, setFactors] = useState({})
+
+
+    useEffect(() => {
+        //获取因子信息
+        GetFactorInfo<any>({num: 1}).then(data => {
+            setFactors(data)
         })
+    }, [])
 
-
-    const onChange = (info:any)=>{
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`);
-                console.log(previewImage)
-                //发出新的消息
-                setMessageList([...messageList,{username: "zhangyz", head: "zhangyz", content: previewImage}])
-            } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
+    const onChange = (info: any) => {
+        if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+            console.log(previewImage)
+            //发出新的消息
+            setMessageList([...messageList, {username: "zhangyz", head: "zhangyz", content: previewImage}])
+        } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+        }
     }
 
     const sendMessage = () => {
         console.log(form.getFieldsValue())
-        setMessageList([...messageList, messageItem])
-        setMessageItem({content: "", head: "", username: ""})
-    }
+        SendMessageApi<any>({info:form.getFieldsValue(),content:messageItem}).then(data=>{
+          const newMessage = {
+              head: 'zhangyz',
+              username: localStorage.getItem('name') || 'noLogin',
+              content: messageItem || ''
+          }
+            setMessageList([...messageList, newMessage])
+            //清楚输入框数据
+            setMessageItem('')
+        })
 
-    const getUrl = (file:File)=>{
+    }
+    const getUrl = (file: File) => {
         getBase64(file).then(
-           res=>{
-               setPreviewImage(res)
-           }
-       )
+            res => {
+                setPreviewImage(res)
+            }
+        )
     }
 
     const onFinish = (values: any) => {
@@ -118,19 +110,19 @@ const SendMessage = () => {
                         <div className={style.messagePanel} ref={chatListRef}>
                             {messageList.map((item: MessageParams, index) => {
                                 return <MessageItem key={index}
-                                                head={item.head}
-                                                content={item.content}
-                                                username={item.username}
+                                                    head={item.head}
+                                                    content={item.content}
+                                                    username={item.username}
                                 ></MessageItem>
                             })}
                         </div>
                         <div>
-                            <Upload {...props} beforeUpload={getUrl} onChange={onChange}>
+                            <Upload {...props} beforeUpload={getUrl} onChange={onChange} data={{info:form.getFieldsValue()}}>
                                 <Button icon={<PictureOutlined/>} type='primary'></Button>
                             </Upload>
                         </div>
                         <div className={style.messageContent}>
-                            <TextArea style={{height: '100%', resize: 'none'}} value={messageItem.content}
+                            <TextArea style={{height: '100%', resize: 'none'}} value={messageItem}
                                       placeholder="请输入消息内容..."
                                       onChange={onmessageChange}/>
                         </div>
@@ -146,20 +138,20 @@ const SendMessage = () => {
                                    labelAlign='left'
                                    name="control-hooks"
                                    onFinish={onFinish}>
-                            {Object.entries(factors).map((key) => {
-                                return (
-                                    <Form.Item
-                                        style={{marginBottom:'10px'}}
-                                        name={key[0]}
-                                        label={key[0]}
-                                        rules={[{ required: true }]}
-                                        key={key[0]}
-                                        initialValue={key[1]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
-                                )
-                            })}
+                                {Object.entries(factors).map((key) => {
+                                    return (
+                                        <Form.Item
+                                            style={{marginBottom: '10px'}}
+                                            name={key[0]}
+                                            label={key[0]}
+                                            rules={[{required: true}]}
+                                            key={key[0]}
+                                            initialValue={key[1]}
+                                        >
+                                            <Input/>
+                                        </Form.Item>
+                                    )
+                                })}
                             </Form>
                         </div>
                     </div>

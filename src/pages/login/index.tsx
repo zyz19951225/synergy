@@ -1,44 +1,55 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import style from './index.module.css'
 import Title from "../../component/Title";
-import {Button, Card, Form, Input, Select} from "antd";
+import {Button, Form, Input, Select} from "antd";
 import {useNavigate} from "react-router-dom";
-import ajax from "../../utils/ajax";
+import {GetCredentialDetail, GetCredentialTypeList, UserLogin} from "../../api";
+
 
 interface userInfo {
-    username:string,
-    password:string,
-    type:number
+    username: string,
+    password: string,
+    type: number
 }
 
+interface CredentialType {
+    label:string,
+    value:number
+}
+
+interface CredentialDetail {
+    info:string
+}
 
 
 const Login = () => {
     const naviGate = useNavigate()
     const [form] = Form.useForm()
-    const [selectOptions] = useState([
-        {
-            value: 1,
-            label: '认证方式一',
-        },
-        {
-            value: 2,
-            label: '认证方式二',
-        }
-    ])
+    const [selectOptions, setSelectOptions] = useState([] as Array<CredentialType>)
+    const [certificateContents, setCertificateContents] = useState('')
+
+    useEffect(() => {
+        console.log("获取证书信息")
+        GetCredentialTypeList<Array<CredentialType>>().then(data=>{
+            setSelectOptions(data)
+            return data[0].value
+        }).then(
+            value => {
+                GetCredentialDetail<CredentialDetail>({value}).then(data=>{
+                   setCertificateContents(data.info)
+                })
+            }
+        )
+    }, [])
+
     const handleChange = (value: string) => {
         console.log(`selected ${value}`);
     };
     const onFinish = (values: userInfo) => {
-        ajax.post('/createNewJob').then(res=>{
-            console.log(res)
-            localStorage.setItem('user',values.username)
-            //登录成功跳转页面
-            naviGate('/sendMessage')
-        }).catch(res=>{
-            console.log(res)
+        UserLogin<any>(values).then(data => {
+                localStorage.setItem('user', values.username)
+                naviGate('/sendMessage')
         })
-
     };
 
     return (
@@ -50,8 +61,8 @@ const Login = () => {
                     <div className={style.loginLeft}>
                         <div className={style.loginItem}>
                             <Form form={form}
-                                  labelCol={{ span: 6 }}
-                                  wrapperCol={{ span: 16 }}
+                                  labelCol={{span: 6}}
+                                  wrapperCol={{span: 16}}
                                   onFinish={onFinish}
                             >
                                 <Form.Item name="username" label="用户名" rules={[{required: true}]}>
@@ -67,8 +78,8 @@ const Login = () => {
                                         options={selectOptions}
                                     />
                                 </Form.Item>
-                                <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
-                                    <Button type="primary" htmlType="submit" >
+                                <Form.Item wrapperCol={{offset: 6, span: 16}}>
+                                    <Button type="primary" htmlType="submit">
                                         登录
                                     </Button>
                                 </Form.Item>
@@ -78,7 +89,7 @@ const Login = () => {
                     <div className={style.loginCertificate}>
                         <div className={style.loginItem}>
                             <div className={style.certificateTitle}>所选证书信息：</div>
-                           <div className={style.certificateContent}></div>
+                            <div className={style.certificateContent}>{certificateContents}</div>
                         </div>
                     </div>
                 </div>
