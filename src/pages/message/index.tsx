@@ -5,7 +5,9 @@ import Header from "../../component/Header";
 import {PictureOutlined} from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import MessageItem from "../../component/Message";
-import {GetFactorInfo, SendMessageApi} from "../../api";
+import {SendMessageApi} from "../../api";
+import Papa from 'papaparse'
+import axios from "axios";
 
 
 const getBase64 = (file: any): Promise<string> =>
@@ -40,6 +42,7 @@ const SendMessage = () => {
     const [previewImage, setPreviewImage] = useState("");
     const [messageList, setMessageList] = useState<MessageParams[]>([])
     const [messageItem, setMessageItem] = useState('')
+    const [factorList, setFactorList] = useState([])
     // 监听聊天数据的变化，改变聊天容器元素的 scrollTop 值让页面滚到最底部
     useEffect(() => {
         const current = chatListRef.current!
@@ -50,14 +53,20 @@ const SendMessage = () => {
     const onmessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMessageItem(e.target.value)
     }
-    const [factors, setFactors] = useState({})
 
 
+    //解析csv文件
     useEffect(() => {
-        //获取因子信息
-        GetFactorInfo<any>({num: 1}).then(data => {
-            setFactors(data)
-        })
+        axios.get("/static/Dataset_20221122_normal_User75.csv").then(res => {
+                Papa.parse(res.data, {
+                    worker: true,
+                    header: true,
+                    complete(results: any, file: any) {
+                        setFactorList(results.data)
+                    }
+                })
+            }
+        )
     }, [])
 
     const onChange = (info: any) => {
@@ -76,12 +85,12 @@ const SendMessage = () => {
 
     const sendMessage = () => {
         console.log(form.getFieldsValue())
-        SendMessageApi<any>({info:form.getFieldsValue(),content:messageItem}).then(data=>{
-          const newMessage = {
-              head: 'zhangyz',
-              username: localStorage.getItem('name') || 'noLogin',
-              content: messageItem || ''
-          }
+        SendMessageApi<any>({info: form.getFieldsValue(), content: messageItem}).then(data => {
+            const newMessage = {
+                head: 'zhangyz',
+                username: localStorage.getItem('name') || 'noLogin',
+                content: messageItem || ''
+            }
             setMessageList([...messageList, newMessage])
             //清楚输入框数据
             setMessageItem('')
@@ -117,7 +126,8 @@ const SendMessage = () => {
                             })}
                         </div>
                         <div>
-                            <Upload {...props} beforeUpload={getUrl} onChange={onChange} data={{info:form.getFieldsValue()}}>
+                            <Upload {...props} beforeUpload={getUrl} onChange={onChange}
+                                    data={{info: form.getFieldsValue()}}>
                                 <Button icon={<PictureOutlined/>} type='primary'></Button>
                             </Upload>
                         </div>
@@ -138,7 +148,7 @@ const SendMessage = () => {
                                    labelAlign='left'
                                    name="control-hooks"
                                    onFinish={onFinish}>
-                                {Object.entries(factors).map((key) => {
+                                {Object.entries(factorList[0] || {}).map((key) => {
                                     return (
                                         <Form.Item
                                             style={{marginBottom: '10px'}}

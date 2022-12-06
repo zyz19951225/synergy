@@ -36,7 +36,7 @@ const AuthRecord = () => {
     }
 
     const gotoDetail = ()=>{
-        navigate("/detail")
+        navigate("/history")
     }
 
     const columns = [
