@@ -1,43 +1,41 @@
 .mainContainer {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin: 20px;
-
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: 20px;
 }
 
 .authTitle {
-    height: 80px;
-    border: 1px solid black;
-    font-size: 32px;
-    line-height: 80px;
-    padding-left: 20px;
+  height: 80px;
+  border: 1px solid black;
+  font-size: 32px;
+  line-height: 80px;
+  padding-left: 20px;
 }
 
 .authInfoContainer {
-    height: 100%;
-    border: 1px solid black;
-    margin: 20px 0;
-    padding: 20px;
-    overflow-y: auto;
+  height: 100%;
+  border: 1px solid black;
+  margin: 20px 0;
+  padding: 20px;
+  overflow-y: auto;
 }
 
-.recordItem{
-    background: lightslategray;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid black;
+.recordItem {
+  background: lightslategray;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid black;
 }
 
-.itemDetail1{
-    padding: 10px;
-
+.itemDetail1 {
+  padding: 10px;
 }
 
-.itemDetail2{
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
+.itemDetail2 {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
 }
