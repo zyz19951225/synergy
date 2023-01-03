@@ -30,22 +30,29 @@ const AuthDetail = () => {
 
   useEffect(() => {
     //获取用户认证详情
-    GetAuthDetail<AuthDetailType>({ username: params.get("name") }).then((data) => {
-      setAuthInfo(data);
-    });
+    GetAuthDetail<AuthDetailType>({ username: params.get("name") }).then(
+      (data) => {
+        setAuthInfo(data);
+      }
+    );
   }, []);
 
   const goBack = () => {
     navigate(-1);
   };
 
-  const [authInfo, setAuthInfo] = useState<AuthDetailType>({} as AuthDetailType);
+  const [authInfo, setAuthInfo] = useState<AuthDetailType>(
+    {} as AuthDetailType
+  );
   return (
     <div className={style.mainContainer}>
       <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
         <div className={style.authTitle}>
           {params.get("name") ? (
-            <span style={{ borderRight: "1px solid black", paddingRight: "10px" }} onClick={goBack}>
+            <span
+              style={{ borderRight: "1px solid black", paddingRight: "10px" }}
+              onClick={goBack}
+            >
               <ArrowLeftOutlined />
             </span>
           ) : (
@@ -60,12 +67,16 @@ const AuthDetail = () => {
                 <div className={style.recordItem}>
                   <div className={style.itemDetail1}>
                     <span>认证因子名称：{item.factor}</span>
-                    <span style={{ padding: "0 10px" }}>操作类型：{item.certificationType}</span>
+                    <span style={{ padding: "0 10px" }}>
+                      操作类型：{item.certificationType}
+                    </span>
                   </div>
                   {!item.content.type ? (
                     ""
                   ) : item.content.type === "txt" ? (
-                    <div style={{ padding: "10px" }}>消息内容：{item.content.message}</div>
+                    <div style={{ padding: "10px" }}>
+                      消息内容：{item.content.message}
+                    </div>
                   ) : (
                     <div style={{ padding: "10px" }}>
                       消息内容：
@@ -76,7 +87,9 @@ const AuthDetail = () => {
                     <span>结果：{item.result}</span>
                     <div>
                       <span>地点：{item.address}</span>
-                      <span style={{ padding: "0 10px" }}>时间：{item.time}</span>
+                      <span style={{ padding: "0 10px" }}>
+                        时间：{item.time}
+                      </span>
                     </div>
                   </div>
                 </div>

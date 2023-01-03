@@ -24,13 +24,14 @@ interface MessageParams {
 }
 
 const props: UploadProps = {
-  action: "https://mock.mengxuegu.com/mock/618c70f84c5d9932f7e75d90/example/createNewJob",
-  showUploadList: false
+  action:
+    "https://mock.mengxuegu.com/mock/618c70f84c5d9932f7e75d90/example/createNewJob",
+  showUploadList: false,
 };
 
 const layout = {
   labelCol: { span: 10 },
-  wrapperCol: { span: 14 }
+  wrapperCol: { span: 14 },
 };
 
 const SendMessage = () => {
@@ -59,7 +60,7 @@ const SendMessage = () => {
         header: true,
         complete(results: any, file: any) {
           setFactorList(results.data);
-        }
+        },
       });
     });
   }, []);
@@ -72,7 +73,10 @@ const SendMessage = () => {
       message.success(`${info.file.name} file uploaded successfully`);
       console.log(previewImage);
       //发出新的消息
-      setMessageList([...messageList, { username: "zhangyz", head: "zhangyz", content: previewImage }]);
+      setMessageList([
+        ...messageList,
+        { username: "zhangyz", head: "zhangyz", content: previewImage },
+      ]);
     } else if (info.file.status === "error") {
       message.error(`${info.file.name} file upload failed.`);
     }
@@ -80,11 +84,14 @@ const SendMessage = () => {
 
   const sendMessage = () => {
     console.log(form.getFieldsValue());
-    SendMessageApi<any>({ info: form.getFieldsValue(), content: messageItem }).then((data) => {
+    SendMessageApi<any>({
+      info: form.getFieldsValue(),
+      content: messageItem,
+    }).then((data) => {
       const newMessage = {
         head: "zhangyz",
         username: localStorage.getItem("name") || "noLogin",
-        content: messageItem || ""
+        content: messageItem || "",
       };
       setMessageList([...messageList, newMessage]);
       //清楚输入框数据
@@ -121,7 +128,12 @@ const SendMessage = () => {
               })}
             </div>
             <div>
-              <Upload {...props} beforeUpload={getUrl} onChange={onChange} data={{ info: form.getFieldsValue() }}>
+              <Upload
+                {...props}
+                beforeUpload={getUrl}
+                onChange={onChange}
+                data={{ info: form.getFieldsValue() }}
+              >
                 <Button icon={<PictureOutlined />} type="primary"></Button>
               </Upload>
             </div>
@@ -137,7 +149,14 @@ const SendMessage = () => {
           <div className={style.factors}>
             <div className={style.messageContentTitle}>因子信息</div>
             <div className={style.factorsItems}>
-              <Form {...layout} labelWrap form={form} labelAlign="left" name="control-hooks" onFinish={onFinish}>
+              <Form
+                {...layout}
+                labelWrap
+                form={form}
+                labelAlign="left"
+                name="control-hooks"
+                onFinish={onFinish}
+              >
                 {Object.entries(factorList[0] || {}).map((key) => {
                   return (
                     <Form.Item

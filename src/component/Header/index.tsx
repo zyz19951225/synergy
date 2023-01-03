@@ -10,15 +10,15 @@ const Header = () => {
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "1") {
-      localStorage.removeItem("user");
+      localStorage.removeItem("token");
       naviGate("/");
     }
   };
   const items: MenuProps["items"] = [
     {
       label: "退出",
-      key: "1"
-    }
+      key: "1",
+    },
   ];
 
   return (

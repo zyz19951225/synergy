@@ -1,5 +1,6 @@
 import React, { lazy } from "react";
 import SendMessage from "../pages/message";
+import { AuthRoute } from "../component/AuthRoute";
 
 const Login = lazy(() => import("../pages/login"));
 const AuthRecord = lazy(() => import("../pages/authRecord"));
@@ -10,24 +11,28 @@ const getRoutes = () => {
   return [
     {
       path: "/",
-      component: <Login />
+      element: <Login />,
     },
     {
       path: "/sendMessage",
-      component: <SendMessage />
+      element: (
+        <AuthRoute>
+          <SendMessage />
+        </AuthRoute>
+      ),
     },
     {
       path: "/authDetail",
-      component: <AuthDetail />
+      element: <AuthDetail />,
     },
     {
       path: "/authRecord",
-      component: <AuthRecord />
+      element: <AuthRecord />,
     },
     {
       path: "/history",
-      component: <HistoricalRoute />
-    }
+      element: <HistoricalRoute />,
+    },
   ];
 };
 

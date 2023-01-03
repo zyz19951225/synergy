@@ -14,7 +14,7 @@ const timeout = 30000;
 //创建axios实例
 const service = axios.create({
   timeout,
-  baseURL
+  baseURL,
   //如需要携带cookie 该值需设为true
   // withCredentials: true
 });
@@ -107,12 +107,14 @@ const requestHandler = <T>(
 
 // 使用 request 统一调用，包括封装的get、post、put、delete等方法
 const request = {
-  get: <T>(url: string, params?: object, config?: AxiosRequestConfig) => requestHandler<T>("get", url, params, config),
+  get: <T>(url: string, params?: object, config?: AxiosRequestConfig) =>
+    requestHandler<T>("get", url, params, config),
   post: <T>(url: string, params?: object, config?: AxiosRequestConfig) =>
     requestHandler<T>("post", url, params, config),
-  put: <T>(url: string, params?: object, config?: AxiosRequestConfig) => requestHandler<T>("put", url, params, config),
+  put: <T>(url: string, params?: object, config?: AxiosRequestConfig) =>
+    requestHandler<T>("put", url, params, config),
   delete: <T>(url: string, params?: object, config?: AxiosRequestConfig) =>
-    requestHandler<T>("delete", url, params, config)
+    requestHandler<T>("delete", url, params, config),
 };
 
 // 导出至外层，方便统一使用

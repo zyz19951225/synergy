@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./index.module.css";
-import { Button, Form, Input, Pagination, Space, Table, Tag } from "antd";
+import { Button, Form, Input, Pagination, Space, Table } from "antd";
 import { useNavigate } from "react-router-dom";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { GetAuthRecordList } from "../../api";
 
 interface DataType {
@@ -40,22 +39,22 @@ const AuthRecord = () => {
     {
       title: "用户名",
       dataIndex: "username",
-      key: "name"
+      key: "name",
     },
     {
       title: "上次登录时间",
       dataIndex: "lastLoginTime",
-      key: "lastLoginTime"
+      key: "lastLoginTime",
     },
     {
       title: "上次登录地点",
       dataIndex: "address",
-      key: "address"
+      key: "address",
     },
     {
       title: "历史接入次数",
       dataIndex: "accesses",
-      key: "accesses"
+      key: "accesses",
     },
     {
       title: "操作",
@@ -69,8 +68,8 @@ const AuthRecord = () => {
             历史轨迹
           </Button>
         </Space>
-      )
-    }
+      ),
+    },
   ];
   const [form] = Form.useForm();
   const onFinish = (values: any) => {
@@ -86,7 +85,12 @@ const AuthRecord = () => {
     <div className={style.mainContainer}>
       <div className={style.title}>认证记录</div>
       <div className={style.queryItem}>
-        <Form form={form} name="horizontal_login" layout="inline" onFinish={onFinish}>
+        <Form
+          form={form}
+          name="horizontal_login"
+          layout="inline"
+          onFinish={onFinish}
+        >
           <Form.Item
             name="username"
             label="用户名"
@@ -104,8 +108,15 @@ const AuthRecord = () => {
         </Form>
       </div>
       <div className={style.recordTable}>
-        <Table dataSource={userRecords.data} columns={columns} pagination={false} />
-        <Pagination defaultCurrent={userRecords.current} total={userRecords.total} />
+        <Table
+          dataSource={userRecords.data}
+          columns={columns}
+          pagination={false}
+        />
+        <Pagination
+          defaultCurrent={userRecords.current}
+          total={userRecords.total}
+        />
       </div>
     </div>
   );
