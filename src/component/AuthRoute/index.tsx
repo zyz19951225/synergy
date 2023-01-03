@@ -4,12 +4,13 @@
 // 3. 如果不存在 重定向到登录路由
 
 import { Navigate } from "react-router-dom";
+import { USER_NAME } from "../../constant/Constant";
 // 高阶组件:把一个组件当成另外一个组件的参数传入 然后通过一定的判断 返回新的组件
 // 这里的AuthRoute就是一个高阶组件
 
 // 从localstorage中取token
 const getToken = () => {
-  return window.localStorage.getItem("token");
+  return window.localStorage.getItem(USER_NAME);
 };
 
 function AuthRoute({ children }: any) {
@@ -21,7 +22,7 @@ function AuthRoute({ children }: any) {
   }
   // 如果token不存在，重定向到登录路由
   else {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 }
 {

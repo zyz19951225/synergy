@@ -8,6 +8,7 @@ import MessageItem from "../../component/Message";
 import { SendMessageApi } from "../../api";
 import Papa from "papaparse";
 import axios from "axios";
+import { USER_NAME } from "../../constant/Constant";
 
 const getBase64 = (file: any): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -90,7 +91,7 @@ const SendMessage = () => {
     }).then((data) => {
       const newMessage = {
         head: "zhangyz",
-        username: localStorage.getItem("name") || "noLogin",
+        username: localStorage.getItem(USER_NAME) || "noLogin",
         content: messageItem || "",
       };
       setMessageList([...messageList, newMessage]);

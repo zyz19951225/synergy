@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import style from "./index.module.css";
 import Title from "../../component/Title";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, message, Select } from "antd";
 import { useNavigate } from "react-router-dom";
-import {
-  GetCredentialDetail,
-  GetCredentialTypeList,
-  UserLogin,
-} from "../../api";
+import { GetCredentialDetail, GetCredentialTypeList } from "../../api";
+import { USER_NAME, PASSWORD } from "../../constant/Constant";
 
 interface userInfo {
   username: string;
@@ -26,6 +23,7 @@ interface CredentialDetail {
 
 const Login = () => {
   const naviGate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
   const [selectOptions, setSelectOptions] = useState(
     [] as Array<CredentialType>
@@ -50,14 +48,21 @@ const Login = () => {
     console.log(`selected ${value}`);
   };
   const onFinish = (values: userInfo) => {
-    UserLogin<any>(values).then((data) => {
-      localStorage.setItem("token", values.username);
+    if (values.username === USER_NAME && values.password === PASSWORD) {
+      localStorage.setItem(USER_NAME, USER_NAME);
       naviGate("/sendMessage");
-    });
+    } else {
+      messageApi.error("用户名或密码错误！");
+    }
+    // UserLogin<any>(values).then((data) => {
+    //   localStorage.setItem("token", values.username);
+    //   naviGate("/sendMessage");
+    // });
   };
 
   return (
     <div className={style.bodyContainer}>
+      {contextHolder}
       <Title></Title>
       <div className={style.loginContainer}>
         <span className={style.loginTitle}>登录</span>

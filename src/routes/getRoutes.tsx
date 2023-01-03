@@ -1,11 +1,11 @@
 import React, { lazy } from "react";
 import SendMessage from "../pages/message";
 import { AuthRoute } from "../component/AuthRoute";
-
 const Login = lazy(() => import("../pages/login"));
 const AuthRecord = lazy(() => import("../pages/authRecord"));
 const HistoricalRoute = lazy(() => import("../pages/historicalRoute"));
 const AuthDetail = lazy(() => import("../pages/authDetail"));
+const ErrorPage = lazy(() => import("../pages/error"));
 
 const getRoutes = () => {
   return [
@@ -32,6 +32,10 @@ const getRoutes = () => {
     {
       path: "/history",
       element: <HistoricalRoute />,
+    },
+    {
+      path: "*",
+      element: <ErrorPage />,
     },
   ];
 };

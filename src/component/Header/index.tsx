@@ -4,13 +4,14 @@ import logo from "../../asserts/logo.png";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, MenuProps, message, Space } from "antd";
 import { useNavigate } from "react-router-dom";
+import { USER_NAME } from "../../constant/Constant";
 
 const Header = () => {
   const naviGate = useNavigate();
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "1") {
-      localStorage.removeItem("token");
+      localStorage.removeItem(USER_NAME);
       naviGate("/");
     }
   };
@@ -32,7 +33,7 @@ const Header = () => {
         <Dropdown menu={{ items, onClick }}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              {localStorage.getItem("user") || "未登录"}
+              {localStorage.getItem(USER_NAME) || "未登录"}
               <DownOutlined />
             </Space>
           </a>
