@@ -30,19 +30,19 @@ const Login = () => {
   );
   const [certificateContents, setCertificateContents] = useState("");
 
-  useEffect(() => {
-    console.log("获取证书信息");
-    GetCredentialTypeList<Array<CredentialType>>()
-      .then((data) => {
-        setSelectOptions(data);
-        return data[0].value;
-      })
-      .then((value) => {
-        GetCredentialDetail<CredentialDetail>({ value }).then((data) => {
-          setCertificateContents(data.info);
-        });
-      });
-  }, []);
+  // useEffect(() => {
+  //   console.log("获取证书信息");
+  //   GetCredentialTypeList<Array<CredentialType>>()
+  //     .then((data) => {
+  //       setSelectOptions(data);
+  //       return data[0].value;
+  //     })
+  //     .then((value) => {
+  //       GetCredentialDetail<CredentialDetail>({ value }).then((data) => {
+  //         setCertificateContents(data.info);
+  //       });
+  //     });
+  // }, []);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);

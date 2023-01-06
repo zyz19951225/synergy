@@ -5,7 +5,7 @@ import Header from "../../component/Header";
 import { PictureOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import MessageItem from "../../component/Message";
-import { SendMessageApi } from "../../api";
+import { SendMessageApi, SendValidationFactor } from "../../api";
 import Papa from "papaparse";
 import axios from "axios";
 import { USER_NAME } from "../../constant/Constant";
@@ -23,6 +23,24 @@ interface MessageParams {
   username: string;
   content: string;
 }
+interface FactorParams {
+  "Accelerated velocity": number;
+  Course: number;
+  "Distance between BS and User": number;
+  "Elevation between BS and Satellite": number;
+  Flag: number;
+  "Index of Satellite": number;
+  "Latitude of User": number;
+  "Longitude of User": number;
+  "Longitudinal Index of BS": number;
+  "Overall speed": number;
+  "Service Type": number;
+  Sinuosity: number;
+  "Traffic Volume": number;
+  "Transverse Index of BS": number;
+  "Turn angle": number;
+  "Velocity of User": number;
+}
 
 const props: UploadProps = {
   action:
@@ -36,12 +54,31 @@ const layout = {
 };
 
 const SendMessage = () => {
+  let factorNum = 0;
   const chatListRef = useRef(null);
   const [form] = Form.useForm();
-  const [previewImage, setPreviewImage] = useState("");
+  const [currentFactor, setCurrentFactor] = useState<FactorParams>({
+    "Accelerated velocity": 0,
+    "Distance between BS and User": 0,
+    "Elevation between BS and Satellite": 0,
+    "Index of Satellite": 0,
+    "Latitude of User": 0,
+    "Longitude of User": 0,
+    "Longitudinal Index of BS": 0,
+    "Overall speed": 0,
+    "Service Type": 0,
+    "Traffic Volume": 0,
+    "Transverse Index of BS": 0,
+    "Turn angle": 0,
+    "Velocity of User": 0,
+    Course: 0,
+    Flag: 0,
+    Sinuosity: 0,
+  });
+  const [previewImage, setPreviewImage] = useState<string>("");
   const [messageList, setMessageList] = useState<MessageParams[]>([]);
-  const [messageItem, setMessageItem] = useState("");
-  const [factorList, setFactorList] = useState([]);
+  const [messageItem, setMessageItem] = useState<string>("");
+  const [factorList, setFactorList] = useState<FactorParams[]>([]);
   // 监听聊天数据的变化，改变聊天容器元素的 scrollTop 值让页面滚到最底部
   useEffect(() => {
     const current = chatListRef.current!;
@@ -55,7 +92,8 @@ const SendMessage = () => {
 
   //解析csv文件
   useEffect(() => {
-    axios.get("/static/Dataset_20221122_normal_User75.csv").then((res) => {
+    axios.get("/static/FactorList.csv").then((res) => {
+      console.log("FactorList");
       Papa.parse(res.data, {
         worker: true,
         header: true,
@@ -65,6 +103,31 @@ const SendMessage = () => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    if (factorList.length > 0) {
+      sendFactorInterval(3000);
+    }
+  }, [factorList]);
+
+  const sendFactorInterval = (time: number) => {
+    setInterval(() => {
+      sendValidationFactor(factorList[factorNum]);
+      factorNum++;
+      setCurrentFactor(factorList[factorNum]);
+    }, time);
+  };
+
+  useEffect(() => {
+    // console.log(currentFactor);
+  }, [currentFactor]);
+
+  //发送消息
+  const sendValidationFactor = (factor: any) => {
+    SendValidationFactor<any>(factor).then((data) => {
+      // console.log('-----',data)
+    });
+  };
 
   const onChange = (info: any) => {
     if (info.file.status !== "uploading") {
@@ -84,7 +147,6 @@ const SendMessage = () => {
   };
 
   const sendMessage = () => {
-    console.log(form.getFieldsValue());
     SendMessageApi<any>({
       info: form.getFieldsValue(),
       content: messageItem,
@@ -158,17 +220,16 @@ const SendMessage = () => {
                 name="control-hooks"
                 onFinish={onFinish}
               >
-                {Object.entries(factorList[0] || {}).map((key) => {
+                {Object.entries(currentFactor).map((key) => {
                   return (
                     <Form.Item
                       style={{ marginBottom: "10px" }}
                       name={key[0]}
                       label={key[0]}
                       rules={[{ required: true }]}
-                      key={key[0]}
-                      initialValue={key[1]}
+                      key={Math.random()}
                     >
-                      <Input />
+                      <Input defaultValue={key[1]} disabled={true} />
                     </Form.Item>
                   );
                 })}

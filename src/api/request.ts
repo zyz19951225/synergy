@@ -3,10 +3,10 @@ import { message } from "antd";
 
 //基础URL，axios将会自动拼接在url前
 //process.env.NODE_ENV 判断是否为开发环境 根据不同环境使用不同的baseURL 方便调试
-const baseURL =
-  process.env.NODE_ENV === "development"
-    ? "https://mock.mengxuegu.com/mock/63870dcb93a67b5f10668dd4/synergy"
-    : "https://your.domain.com/api";
+const baseURL = "/api";
+// process.env.NODE_ENV === "development"
+//   ? "/api"
+//   : "https://your.domain.com/api";
 
 //默认请求超时时间
 const timeout = 30000;
@@ -79,6 +79,7 @@ const requestHandler = <T>(
       .then((res) => {
         //业务代码 可根据需求自行处理
         const data = res.data;
+        console.log(data, "data");
         if (data.code !== 200) {
           //特定状态码 处理特定的需求
           if (data.code == 401) {
