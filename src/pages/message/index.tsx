@@ -8,7 +8,7 @@ import MessageItem from "../../component/Message";
 import { SendMessageApi, SendValidationFactor } from "../../api";
 import Papa from "papaparse";
 import axios from "axios";
-import { USER_NAME } from "../../constant/Constant";
+import {USER_NAME, VERIFICATION_INTERVAL} from "../../constant/Constant";
 
 const getBase64 = (file: any): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -97,6 +97,7 @@ const SendMessage = () => {
       Papa.parse(res.data, {
         worker: true,
         header: true,
+        dynamicTyping:true,
         complete(results: any, file: any) {
           setFactorList(results.data);
         },
@@ -106,7 +107,7 @@ const SendMessage = () => {
 
   useEffect(() => {
     if (factorList.length > 0) {
-      sendFactorInterval(3000);
+      sendFactorInterval(VERIFICATION_INTERVAL);
     }
   }, [factorList]);
 
