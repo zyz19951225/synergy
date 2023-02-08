@@ -1,45 +1,46 @@
 .mainContainer {
- display: flex;
-  width: 100vw;
-  height: 800px;
-  flex-direction: column;
+    display: flex;
+    width: 100vw;
+    height: 88vh;
+    flex-direction: column;
 }
 
 .mapContainer {
-  flex: 1;
+    flex: 1;
     margin: 10px;
 }
 
-.chooseContainer{
-  /*border: black 1px solid;*/
-     margin: 5px 10px;
+.chooseContainer {
+    /*border: black 1px solid;*/
+    margin: 5px 10px;
     display: flex;
     justify-content: flex-end;
 }
 
-.header{
+.header {
 
 }
 
-.backbtn:after{
-  content: "";
-  border-right: 2px solid black;
-  padding-left: 1em;
+.backbtn:after {
+    content: "";
+    border-right: 2px solid black;
+    padding-left: 1em;
 }
+
 .title {
-  /*border: 1px solid black;*/
-  font-size: 32px;
-  padding: 10px;
+    /*border: 1px solid black;*/
+    font-size: 32px;
+    padding: 10px;
 }
 
 .queryItem {
-  border: 1px solid black;
-  padding: 10px;
-  margin-top: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    margin-top: 10px;
 }
 
 .recordTable {
-  border: 1px solid black;
-  margin-top: 10px;
-  padding: 10px;
+    border: 1px solid black;
+    margin-top: 10px;
+    padding: 10px;
 }
