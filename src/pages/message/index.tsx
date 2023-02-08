@@ -100,6 +100,11 @@ const SendMessage = () => {
         dynamicTyping:true,
         complete(results: any, file: any) {
           setFactorList(results.data);
+          let pointList = results.data.map((value:FactorParams)=>{
+            let la = value['Latitude of User']
+            let lo = value['Longitude of User']
+            return {la,lo}
+          },{})
         },
       });
     });

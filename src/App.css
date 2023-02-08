@@ -5,3 +5,12 @@
   width: 100vw;
   overflow: hidden;
 }
+
+
+/*隐藏百度地图版权信息*/
+.BMap_cpyCtrl {
+  display: none;
+}
+.anchorBL {
+  display: none !important;
+}
