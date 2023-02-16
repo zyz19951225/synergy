@@ -25,8 +25,31 @@
 }
 
 .messageContentTitle {
+  font-weight: bold;
+}
+
+.factorDetailTitle{
   font-size: 20px;
   font-weight: bold;
+}
+
+.factorDetailContent{
+
+    font-size: 15px;
+   display: flex;
+  white-space: nowrap;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+}
+.factorDetail{
+  margin: 0 10px;
+}
+
+.mapContainer{
+  flex: 1;
+  margin: 10px;
+  border: 1px solid black;
 }
 
 .messagePanel {

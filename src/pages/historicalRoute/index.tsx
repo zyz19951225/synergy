@@ -25,7 +25,6 @@ interface FactorParams {
   "Flag": number;
   "Longitude":number;
   "Latitude":number;
-
 }
 
 const HistoricalRoute = () => {
@@ -63,31 +62,43 @@ const HistoricalRoute = () => {
         skipEmptyLines: true,
         dynamicTyping: true,
         complete(results: any, file: any) {
-            updateMap(results)
+            updateMap(results.data)
         },
       });
     });
+  }
+  const getPointList = (arr:Array<FactorParams> )=>{
+    return arr.map((value: FactorParams) => {
+      return new BMapGL.Point(value['Longitude'], value['Latitude'])
+    }, {})
   }
 
   const updateMap = (results:any) => {
     const map = new BMapGL.Map("container"); // 创建地图实例
     map.enableScrollWheelZoom();//开启鼠标滚轮
-    map.addEventListener("click", function (e) {
-      alert("当前位置：" + e.point.lng + ", " + e.point.lat);
+    //根据flag拆分节点
+    const flagOnePoints = [] as Array<FactorParams>
+    const flagThreePoints = [] as Array<FactorParams>
+    results.forEach((item:FactorParams)=>{
+      item.Flag === 1? flagOnePoints.push(item):flagThreePoints.push(item)
     })
-    let pointList = results.data.map((value: FactorParams) => {
-      let la = value['Latitude']
-      let lo = value['Longitude']
-      return {la, lo}
-    }, {})
-    let points = pointList.map((value: any) => {
-      return new BMapGL.Point(value.lo, value.la)
-    })
-    const polyline = new BMapGL.Polyline(points,
-        {strokeColor: "green", strokeWeight: 1, strokeOpacity: 0.3}
-    );
-    map.addOverlay(polyline);
-    const {center, zoom} = map.getViewport(points)
+    let pointListForOne = getPointList(flagOnePoints)
+    let pointListForThree = getPointList(flagThreePoints)
+
+    if (pointListForOne.length>0){
+      const polylineOne = new BMapGL.Polyline(pointListForOne,
+          {strokeColor: "green", strokeWeight: 1, strokeOpacity: 0.5}
+      );
+      map.addOverlay(polylineOne);
+    }
+
+    if (pointListForThree.length > 0){
+      const polylineThree = new BMapGL.Polyline(pointListForThree,
+          {strokeColor: "#ee0e0e", strokeWeight: 1, strokeOpacity: 0.5}
+      );
+      map.addOverlay(polylineThree);
+    }
+    const {center, zoom} = map.getViewport(pointListForOne)
     map.centerAndZoom(center, zoom)
   }
 

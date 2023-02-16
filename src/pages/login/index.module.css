@@ -27,13 +27,19 @@
 
 .certificateTitle {
   padding: 10px 20px;
+
 }
 
 .certificateContent {
-  background: lightslategray;
+  /*background: lightslategray;*/
   height: 80%;
   width: 80%;
   margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .loginLeft {
