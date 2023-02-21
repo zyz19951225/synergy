@@ -193,6 +193,16 @@ const SendMessage = () => {
     initBMapGL(results, setCurrentFactor, false);
   };
 
+  const reply = (index:number,item={head:'root',content:'收到',username:'root'})=>{
+    return (
+        <MessageItemRight
+            head={item.head}
+            content={item.content}
+            username={item.username}
+        ></MessageItemRight>
+    )
+  }
+
   return (
     <div className={style["body-container"]}>
       <Header></Header>
@@ -202,21 +212,15 @@ const SendMessage = () => {
             <div className={style.messageContentTitle}>消息记录</div>
             <div className={style.messagePanel} ref={chatListRef}>
               {messageList.map((item: MessageParams, index) => {
-                return (
-                 <>
-                   <MessageItemLeft
-                       key={index}
-                       head={item.head}
-                       content={item.content}
-                       username={item.username}
-                   ></MessageItemLeft>
-                   <MessageItemRight
-                       key={index}
-                       head={item.head}
-                       content={item.content}
-                       username={item.username}
-                   ></MessageItemRight></>
-                );
+                return (    <>
+                  <MessageItemLeft
+                      key={index}
+                      head={item.head}
+                      content={item.content}
+                      username={item.username}
+                  ></MessageItemLeft>
+                  {reply(index+1)}
+                </>)
               })}
             </div>
             <div>

@@ -30,7 +30,7 @@ interface FactorParams {
 //地图控件
 const getMapController = (data: any) => {
   let mapController = new Control();
-  mapController.defaultAnchor = BMAP_ANCHOR_TOP_LEFT;
+  mapController.defaultAnchor = BMAP_ANCHOR_TOP_RIGHT;
   mapController.defaultOffset = new Size(10, 10);
   mapController.initialize = (map) => {
     // 创建一个DOM元素
