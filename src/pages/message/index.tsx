@@ -235,6 +235,7 @@ const SendMessage = () => {
                 value={messageItem}
                 placeholder="请输入消息内容..."
                 onChange={onmessageChange}
+                onPressEnter={sendMessage}
               />
             </div>
           </div>
@@ -269,11 +270,11 @@ const SendMessage = () => {
           </div>
         </div>
       </div>
-      <div className={style.sendButton}>
-        <Button type="primary" onClick={() => sendMessage()}>
-          发送消息
-        </Button>
-      </div>
+      {/*<div className={style.sendButton}>*/}
+      {/*  <Button type="primary" onClick={() => sendMessage()}>*/}
+      {/*    发送消息*/}
+      {/*  </Button>*/}
+      {/*</div>*/}
     </div>
   );
 };
