@@ -25,23 +25,22 @@ const Login = () => {
   const naviGate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
-  const [selectOptions, setSelectOptions] = useState(
-    [
-      {
-        label:'证书1',
-        value:'time="2023/5/22";location:[Zhejiang,Hangzhou;Guangdong,Guangzhou];'
-      },
-      {
-        label:'证书2',
-        value:'time="2022/10/22";location:[Fujian,Xiamen;Jiangsu,Nanjing];'
-      }
-    ]
-  );
+  const [selectOptions, setSelectOptions] = useState([
+    {
+      label: "证书1",
+      value:
+        'time="2023/5/22";location:[Zhejiang,Hangzhou;Guangdong,Guangzhou];',
+    },
+    {
+      label: "证书2",
+      value: 'time="2022/10/22";location:[Fujian,Xiamen;Jiangsu,Nanjing];',
+    },
+  ]);
   const [certificateContents, setCertificateContents] = useState("");
 
-  useEffect(()=>{
-    setCertificateContents(selectOptions[0].value)
-  })
+  useEffect(() => {
+    setCertificateContents(selectOptions[0].value);
+  });
 
   // useEffect(() => {
   //   console.log("获取证书信息");
@@ -59,7 +58,7 @@ const Login = () => {
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
-    setCertificateContents(value)
+    setCertificateContents(value);
   };
   const onFinish = (values: userInfo) => {
     if (values.username === USER_NAME && values.password === PASSWORD) {

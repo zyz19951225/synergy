@@ -25,11 +25,12 @@ function AuthRoute({ children }: any) {
     return <Navigate to="/" replace />;
   }
 }
+
 {
   /*
- <AuthRoute> <Layout /> </AuthRoute>
- 登录：<> <Layout /> </>
- 非登录：<Navigate to="/login" replace />
-*/
+   <AuthRoute> <Layout /> </AuthRoute>
+   登录：<> <Layout /> </>
+   非登录：<Navigate to="/login" replace />
+  */
 }
 export { AuthRoute };

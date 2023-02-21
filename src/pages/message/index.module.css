@@ -28,25 +28,24 @@
   font-weight: bold;
 }
 
-.factorDetailTitle{
+.factorDetailTitle {
   font-size: 20px;
   font-weight: bold;
 }
 
-.factorDetailContent{
-
-    font-size: 15px;
-   display: flex;
+.factorDetailContent {
+  font-size: 15px;
+  display: flex;
   white-space: nowrap;
   justify-content: space-between;
   flex-wrap: wrap;
-
 }
-.factorDetail{
+
+.factorDetail {
   margin: 0 10px;
 }
 
-.mapContainer{
+.mapContainer {
   flex: 1;
   margin: 10px;
   border: 1px solid black;
@@ -88,7 +87,6 @@
   flex-basis: 0px;
   overflow-y: scroll;
 }
-
 
 .sendButton {
   text-align: center;

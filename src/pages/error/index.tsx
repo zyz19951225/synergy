@@ -7,7 +7,6 @@ const ErrorPage = () => {
   const naviGate = useNavigate();
 
   const backToHome = () => {
-    console.log(".....");
     naviGate("/");
   };
   return (
