@@ -4,16 +4,11 @@ import { Button, Form, message, Upload, UploadProps } from "antd";
 import Header from "../../component/Header";
 import { PictureOutlined } from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
-import MessageItem from "../../component/Message";
+import {MessageItemLeft,MessageItemRight} from "../../component/Message";
 import { SendValidationFactor } from "../../api";
 import Papa from "papaparse";
 import axios from "axios";
 import { USER_NAME, VERIFICATION_INTERVAL } from "../../constant/Constant";
-import Point = BMapGL.Point;
-import Icon = BMapGL.Icon;
-import Size = BMapGL.Size;
-import Control = BMapGL.Control;
-import Marker = BMapGL.Marker;
 import initBMapGL from "../../utils/BMapGL";
 
 const getBase64 = (file: any): Promise<string> =>
@@ -208,12 +203,19 @@ const SendMessage = () => {
             <div className={style.messagePanel} ref={chatListRef}>
               {messageList.map((item: MessageParams, index) => {
                 return (
-                  <MessageItem
-                    key={index}
-                    head={item.head}
-                    content={item.content}
-                    username={item.username}
-                  ></MessageItem>
+                 <>
+                   <MessageItemLeft
+                       key={index}
+                       head={item.head}
+                       content={item.content}
+                       username={item.username}
+                   ></MessageItemLeft>
+                   <MessageItemRight
+                       key={index}
+                       head={item.head}
+                       content={item.content}
+                       username={item.username}
+                   ></MessageItemRight></>
                 );
               })}
             </div>

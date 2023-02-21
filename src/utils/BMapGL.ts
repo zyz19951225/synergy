@@ -3,7 +3,6 @@ import Marker = BMapGL.Marker;
 import Icon = BMapGL.Icon;
 import Size = BMapGL.Size;
 import Control = BMapGL.Control;
-import it from "node:test";
 
 interface FactorParams {
   "Traffic Volume": number;
