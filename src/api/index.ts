@@ -28,7 +28,7 @@ export const GetFactorInfo = <T>(params: any) =>
 
 //登录  --本地校验
 export const UserLogin = <T>(params: any) =>
-  request.post<T>("/login", params, { timeout: 15000 });
+  request.post<T>("/user/auth", params, { timeout: 15000 });
 
 //获取证书类型列表 --- 取消  使用本地数据
 export const GetCredentialTypeList = <T>() =>

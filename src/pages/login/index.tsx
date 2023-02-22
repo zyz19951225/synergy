@@ -3,7 +3,7 @@ import style from "./index.module.css";
 import Title from "../../component/Title";
 import { Button, Form, Input, message, Select } from "antd";
 import { useNavigate } from "react-router-dom";
-import { GetCredentialDetail, GetCredentialTypeList } from "../../api";
+import {GetCredentialDetail, GetCredentialTypeList, UserLogin} from "../../api";
 import { USER_NAME, PASSWORD } from "../../constant/Constant";
 
 interface userInfo {
@@ -61,16 +61,16 @@ const Login = () => {
     setCertificateContents(value);
   };
   const onFinish = (values: userInfo) => {
-    if (values.username === USER_NAME && values.password === PASSWORD) {
-      localStorage.setItem(USER_NAME, USER_NAME);
-      naviGate("/sendMessage");
-    } else {
-      messageApi.error("用户名或密码错误！");
-    }
-    // UserLogin<any>(values).then((data) => {
-    //   localStorage.setItem("token", values.username);
+    // if (values.username === USER_NAME && values.password === PASSWORD) {
+    //   localStorage.setItem(USER_NAME, USER_NAME);
     //   naviGate("/sendMessage");
-    // });
+    // } else {
+    //   messageApi.error("用户名或密码错误！");
+    // }
+    UserLogin<any>(values).then((data) => {
+      localStorage.setItem("token", values.username);
+      naviGate("/sendMessage");
+    });
   };
 
   return (
@@ -89,14 +89,14 @@ const Login = () => {
                 onFinish={onFinish}
               >
                 <Form.Item
-                  name="username"
+                  name="UserName"
                   label="用户名"
                   rules={[{ required: true }]}
                 >
                   <Input />
                 </Form.Item>
                 <Form.Item
-                  name="password"
+                  name="PassWord"
                   label="密码"
                   rules={[{ required: true }]}
                 >
