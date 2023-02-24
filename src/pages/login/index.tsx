@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import md5 from 'js-md5';
 import style from "./index.module.css";
 import Title from "../../component/Title";
 import { Button, Form, Input, message, Select } from "antd";
@@ -67,6 +68,7 @@ const Login = () => {
     // } else {
     //   messageApi.error("用户名或密码错误！");
     // }
+   values = {...values,password:md5(values.password).toUpperCase()}
     UserLogin<any>(values).then((data) => {
       localStorage.setItem("token", values.username);
       naviGate("/sendMessage");
@@ -89,14 +91,14 @@ const Login = () => {
                 onFinish={onFinish}
               >
                 <Form.Item
-                  name="UserName"
+                  name="userName"
                   label="用户名"
                   rules={[{ required: true }]}
                 >
                   <Input />
                 </Form.Item>
                 <Form.Item
-                  name="PassWord"
+                  name="password"
                   label="密码"
                   rules={[{ required: true }]}
                 >

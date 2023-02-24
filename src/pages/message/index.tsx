@@ -84,18 +84,18 @@ const SendMessage = () => {
   };
 
   //解析csv文件
-  useEffect(() => {
-    axios.get("/static/FactorList.csv").then((res) => {
-      Papa.parse(res.data, {
-        worker: true,
-        header: true,
-        dynamicTyping: true,
-        complete(results: any, file: any) {
-          setFactorList(results.data);
-        },
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   axios.get("/static/FactorList.csv").then((res) => {
+  //     Papa.parse(res.data, {
+  //       worker: true,
+  //       header: true,
+  //       dynamicTyping: true,
+  //       complete(results: any, file: any) {
+  //         setFactorList(results.data);
+  //       },
+  //     });
+  //   });
+  // }, []);
 
   useEffect(() => {
     if (factorList.length > 0) {

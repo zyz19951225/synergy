@@ -5,7 +5,7 @@ module.exports = function (app) {
     createProxyMiddleware(
       "/api", //遇见/api-elm前缀的请求,就会触发该代理配置
       {
-        target: "http://localhost:8080", //请求转发给谁（能返回数据的服务器地址）
+        target: "http://localhost:9999", //请求转发给谁（能返回数据的服务器地址）
         changeOrigin: true, //控制服务器收到的响应头中Host字段的值
         secure: false,
         pathRewrite: {

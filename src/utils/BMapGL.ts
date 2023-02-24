@@ -156,7 +156,7 @@ const initBMapGL = (
   }
   //完善用户信息 增加marker属性
   //=------------------------------
-  /* let normalBMapGLMarkerParamsList = getBMapGLMarkerList(normalBMapGLPointParamsList)
+   let normalBMapGLMarkerParamsList = getBMapGLMarkerList(normalBMapGLPointParamsList)
      let abnormalBMapGLMarkerParamsList = getBMapGLMarkerList(abnormalBMapGLPointParamsList, false)
      if (normalBMapGLMarkerParamsList.length > 0) {
          normalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
@@ -176,6 +176,7 @@ const initBMapGL = (
                  })
              }
              map.addOverlay(item.marker)
+           item.marker.hide()
          })
 
      }
@@ -190,9 +191,10 @@ const initBMapGL = (
                  })
              }
              map.addOverlay(item.marker)
+           item.marker.hide()
          })
 
-     }*/
+     }
   //=------------------------------
 
   //----------自定义控件---------------------
@@ -206,6 +208,13 @@ const initBMapGL = (
         tag: "异常轨迹",
         data: abnormalBMapGLPolyline,
       },
+      {
+        tag: '正常坐标',
+        data: normalBMapGLMarker
+      }, {
+        tag: '异常坐标',
+        data: abnormalBMapGLMarker
+      }
     ])
   );
   /*
