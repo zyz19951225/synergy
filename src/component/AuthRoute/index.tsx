@@ -10,7 +10,7 @@ import { USER_NAME } from "../../constant/Constant";
 
 // 从localstorage中取token
 const getToken = () => {
-  return window.localStorage.getItem(USER_NAME);
+  return window.localStorage.getItem('token');
 };
 
 function AuthRoute({ children }: any) {

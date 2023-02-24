@@ -5,10 +5,10 @@ import Title from "../../component/Title";
 import { Button, Form, Input, message, Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import {GetCredentialDetail, GetCredentialTypeList, UserLogin} from "../../api";
-import { USER_NAME, PASSWORD } from "../../constant/Constant";
+import {USER_NAME} from "../../constant/Constant";
 
 interface userInfo {
-  username: string;
+  userName: string;
   password: string;
   type: number;
 }
@@ -28,12 +28,12 @@ const Login = () => {
   const [form] = Form.useForm();
   const [selectOptions, setSelectOptions] = useState([
     {
-      label: "证书1",
+      label: "正常证书",
       value:
         'time="2023/5/22";location:[Zhejiang,Hangzhou;Guangdong,Guangzhou];',
     },
     {
-      label: "证书2",
+      label: "异常证书",
       value: 'time="2022/10/22";location:[Fujian,Xiamen;Jiangsu,Nanjing];',
     },
   ]);
@@ -41,36 +41,16 @@ const Login = () => {
 
   useEffect(() => {
     setCertificateContents(selectOptions[0].value);
-  });
-
-  // useEffect(() => {
-  //   console.log("获取证书信息");
-  //   GetCredentialTypeList<Array<CredentialType>>()
-  //     .then((data) => {
-  //       setSelectOptions(data);
-  //       return data[0].value;
-  //     })
-  //     .then((value) => {
-  //       GetCredentialDetail<CredentialDetail>({ value }).then((data) => {
-  //         setCertificateContents(data.info);
-  //       });
-  //     });
-  // }, []);
+  },[]);
 
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
     setCertificateContents(value);
   };
   const onFinish = (values: userInfo) => {
-    // if (values.username === USER_NAME && values.password === PASSWORD) {
-    //   localStorage.setItem(USER_NAME, USER_NAME);
-    //   naviGate("/sendMessage");
-    // } else {
-    //   messageApi.error("用户名或密码错误！");
-    // }
    values = {...values,password:md5(values.password).toUpperCase()}
     UserLogin<any>(values).then((data) => {
-      localStorage.setItem("token", values.username);
+      window.localStorage.setItem(USER_NAME, values.userName);
       naviGate("/sendMessage");
     });
   };

@@ -1,4 +1,3 @@
 //User
-export const USER_NAME = "admin";
-export const PASSWORD = "admin";
+export const USER_NAME = "userName";
 export const VERIFICATION_INTERVAL = 30000;

@@ -8,7 +8,7 @@ import {MessageItemLeft,MessageItemRight} from "../../component/Message";
 import { SendValidationFactor } from "../../api";
 import Papa from "papaparse";
 import axios from "axios";
-import { USER_NAME, VERIFICATION_INTERVAL } from "../../constant/Constant";
+import {USER_NAME, VERIFICATION_INTERVAL} from "../../constant/Constant";
 import initBMapGL from "../../utils/BMapGL";
 
 const getBase64 = (file: any): Promise<string> =>
