@@ -4,7 +4,7 @@ import style from "./index.module.css";
 import Title from "../../component/Title";
 import { Button, Form, Input, message, Select } from "antd";
 import { useNavigate } from "react-router-dom";
-import {GetCredentialDetail, GetCredentialTypeList, UserLogin} from "../../api";
+import {UserLogin} from "../../api";
 import {USER_NAME} from "../../constant/Constant";
 
 interface userInfo {
@@ -29,23 +29,24 @@ const Login = () => {
   const [selectOptions, setSelectOptions] = useState([
     {
       label: "正常证书",
-      value:
-        'time="2023/5/22";location:[Zhejiang,Hangzhou;Guangdong,Guangzhou];',
+      value1: 'time="2023/5/22";location:[Zhejiang,Hangzhou;Guangdong,Guangzhou];',
+      value: 0,
     },
     {
       label: "异常证书",
-      value: 'time="2022/10/22";location:[Fujian,Xiamen;Jiangsu,Nanjing];',
+      value1: 'time="2022/10/22";location:[Fujian,Xiamen;Jiangsu,Nanjing];',
+      value: 1,
     },
   ]);
   const [certificateContents, setCertificateContents] = useState("");
 
   useEffect(() => {
-    setCertificateContents(selectOptions[0].value);
+    setCertificateContents(selectOptions[0].value1);
   },[]);
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: number) => {
     console.log(`selected ${value}`);
-    setCertificateContents(value);
+    setCertificateContents(selectOptions[value].value1);
   };
   const onFinish = (values: userInfo) => {
    values = {...values,password:md5(values.password).toUpperCase()}
@@ -92,7 +93,7 @@ const Login = () => {
                 >
                   <Select
                     style={{ width: 120 }}
-                    defaultValue={selectOptions[0].label}
+                    defaultValue={selectOptions[0].value}
                     onChange={handleChange}
                     options={selectOptions}
                   />

@@ -1,9 +1,18 @@
 import { request } from "./request";
 
+//登录  --本地校验
+export const UserLogin = <T>(params: any) =>
+    request.post<T>("/auth", params, { timeout: 15000 });
+
+export const LegitimacyCheck = <T>(params: any) =>
+    request.post<T>("/legitimacyCheck", params, { timeout: 15000 });
+
 //发送验证因子
 export const SendValidationFactor = <T>(params: any) =>
-  request.post<T>("/", params);
+  request.post<T>("/factorCheck", params);
 
+
+//-----------------------------
 //发送消息
 export const SendMessageApi = <T>(params: any) =>
   request.post<T>("/sendMessage", params);
@@ -20,15 +29,12 @@ export const GetAuthRecordList = <T>(params: any) =>
 export const GetHistoricalRoute = <T>(params: any) =>
   request.get<T>("/getHistoricalRoute", params);
 
+
 //----------------以下接口暂时取消-----------------
 
 //获取因子信息 -- 取消  本地获取
 export const GetFactorInfo = <T>(params: any) =>
   request.get<T>("/getFactorInfo", params);
-
-//登录  --本地校验
-export const UserLogin = <T>(params: any) =>
-  request.post<T>("/user/auth", params, { timeout: 15000 });
 
 //获取证书类型列表 --- 取消  使用本地数据
 export const GetCredentialTypeList = <T>() =>

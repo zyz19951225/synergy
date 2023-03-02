@@ -2,7 +2,7 @@ import Point = BMapGL.Point;
 import Marker = BMapGL.Marker;
 import Icon = BMapGL.Icon;
 import Size = BMapGL.Size;
-import Control = BMapGL.Control;
+
 
 interface FactorParams {
   "Traffic Volume": number;
@@ -27,44 +27,7 @@ interface FactorParams {
   marker?: any;
 }
 
-//地图控件
-const getMapController = (data: any) => {
-  let mapController = new Control();
-  mapController.defaultAnchor = BMAP_ANCHOR_TOP_RIGHT;
-  mapController.defaultOffset = new Size(10, 10);
-  mapController.initialize = (map) => {
-    // 创建一个DOM元素
-    let div = document.createElement("div");
-    data.forEach((item: any) => {
-      console.log(item);
-      let button = document.createElement("button");
-      button.innerHTML = item.tag;
-      div.appendChild(button);
-
-      // 设置样式
-      button.onclick = function (e) {
-        //todo 优化
-        if (Array.isArray(item.data) && item.data.length > 0) {
-          item.data[0].isVisible()
-            ? item.data.forEach((marker: any) => {
-                marker.hide?.();
-              })
-            : item.data.forEach((marker: any) => {
-                marker.show?.();
-              });
-        } else {
-          item.data.isVisible() ? item.data.hide?.() : item.data.show?.();
-        }
-      };
-      // 添加DOM元素到地图中
-      map.getContainer().appendChild(div);
-    });
-    // 将DOM元素返回
-    return div;
-  };
-  return mapController;
-};
-
+//节点信息增加轨迹信息 数组
 const getBMapGLMarkerList = (arr: Array<FactorParams>, tag = true) => {
   let icon = tag ? "/static/greenTarget.png" : "/static/redTarget.png";
   return arr.map((value: FactorParams) => {
@@ -77,6 +40,18 @@ const getBMapGLMarkerList = (arr: Array<FactorParams>, tag = true) => {
   }, {});
 };
 
+//节点信息增加轨迹信息 单点
+const getBMapGLMarker = (item:FactorParams) => {
+  let icon = item.Flag === 1 ? "/static/greenTarget.png" : "/static/redTarget.png";
+    return {
+      ...item,
+      marker: new BMapGL.Marker(item.point, {
+        icon: new Icon(icon, new Size(10, 10)),
+      }),
+    };
+
+};
+
 //完善信息 增加地理坐标点
 const getBMapGLPointList = (arr: Array<FactorParams>) => {
   return arr.map((value: FactorParams) => {
@@ -85,6 +60,14 @@ const getBMapGLPointList = (arr: Array<FactorParams>) => {
       point: new BMapGL.Point(value["Longitude"], value["Latitude"]),
     };
   }, {});
+};
+
+//节点信息增加坐标点 单点
+const getBMapGLPoint = (arr: FactorParams) => {
+        return {
+            ...arr,
+            point: new BMapGL.Point(arr["Longitude"], arr["Latitude"]),
+        };
 };
 
 const getInfoWindow = (
@@ -197,36 +180,15 @@ const initBMapGL = (
      }
   //=------------------------------
 
-  //----------自定义控件---------------------
-  map.addControl(
-    getMapController([
-      {
-        tag: "正常轨迹",
-        data: normalBMapGLPolyline,
-      },
-      {
-        tag: "异常轨迹",
-        data: abnormalBMapGLPolyline,
-      },
-      {
-        tag: '正常坐标',
-        data: normalBMapGLMarker
-      }, {
-        tag: '异常坐标',
-        data: abnormalBMapGLMarker
-      }
-    ])
-  );
   const { center, zoom } = map.getViewport(normalBMapGLPoints);
   map.centerAndZoom(center, zoom);
   return map;
 };
 
-export default initBMapGL
-
-//-------节点转换工具------
-//节点转换
-export function transformDataToPoint(){
-
+const initBasicsBMapGL = ()=>{
+    const map = new BMapGL.Map("container"); // 创建地图实例
+    map.enableScrollWheelZoom(); //开启鼠标滚轮
+    return map;
 }
 
+export {getBMapGLMarkerList,getBMapGLPointList,initBasicsBMapGL,initBMapGL,getBMapGLMarker,getBMapGLPoint}

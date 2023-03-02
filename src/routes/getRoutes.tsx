@@ -1,7 +1,7 @@
 import React, { lazy } from "react";
-import SendMessage from "../pages/message";
 import { AuthRoute } from "../component/AuthRoute";
 const Login = lazy(() => import("../pages/login"));
+const SendMessage = lazy(() => import("../pages/message"));
 const AuthRecord = lazy(() => import("../pages/authRecord"));
 const HistoricalRoute = lazy(() => import("../pages/historicalRoute"));
 const AuthDetail = lazy(() => import("../pages/authDetail"));
@@ -16,9 +16,9 @@ const getRoutes = () => {
     {
       path: "/sendMessage",
       element: (
-        <AuthRoute>
+
           <SendMessage />
-        </AuthRoute>
+
       ),
     },
     {

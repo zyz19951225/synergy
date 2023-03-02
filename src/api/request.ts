@@ -79,7 +79,6 @@ const requestHandler = <T>(
       .then((res) => {
         //业务代码 可根据需求自行处理
         const data = res.data;
-        console.log(data, "data");
         if (data.code !== 200) {
           //特定状态码 处理特定的需求
           if (data.code == 401) {
