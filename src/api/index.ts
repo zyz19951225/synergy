@@ -9,7 +9,7 @@ export const LegitimacyCheck = <T>(params: any) =>
 
 //发送验证因子
 export const SendValidationFactor = <T>(params: any) =>
-  request.post<T>("/user/factorCheck", {});
+  request.post<T>("/user/factorCheck", params);
 
 
 //-----------------------------

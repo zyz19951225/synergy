@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import style from "./index.module.css";
-import {Button, Form, message, Switch, Upload, UploadProps} from "antd";
+import {Button, Form, message, Modal, Switch, Upload, UploadProps} from "antd";
 import Header from "../../component/Header";
 import {PictureOutlined} from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
@@ -11,6 +11,7 @@ import axios from "axios";
 import {ILLEGALITY_VERIFICATION_INTERVAL, LEGAL_VERIFICATION_INTERVAL, USER_NAME,} from "../../constant/Constant";
 import {getBMapGLMarker, getBMapGLPoint, initBasicsBMapGL} from "../../utils/initBMapGL";
 import Point = BMapGL.Point;
+import Login from "../login";
 
 
 const getBase64 = (file: any): Promise<string> =>
@@ -166,6 +167,7 @@ const SendMessage = () => {
          legalData = await processingCsvData('Dataset_20230222_present_User1_hefa.csv')
         //非法数据
          illegalData = await processingCsvData('Dataset_20230222_present_User1_feifa.csv')
+        console.log(illegalData)
         //初始化地图
         map = initBasicsBMapGL();
          //初始化获取第一个点的信息
@@ -173,6 +175,9 @@ const SendMessage = () => {
             if (r) {
                 sendValidationFactor(legalData[currentNumForLegal])
                 currentNumForLegal++
+            }else {
+                //验证失败 重新登录校验
+                console.log()
             }
         })
         startLegalInterval(legalData)
@@ -301,12 +306,33 @@ const SendMessage = () => {
             });
     }
 
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div className={style["body-container"]}>
+            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+               <Login></Login>
+            </Modal>
             <Header></Header>
             <div className={style.messageContainer}>
                 <div className={style.message}>
                     <div className={style.sendMessage}>
+                        {/*<Button type="primary" onClick={showModal}>*/}
+                        {/*    Open Modal*/}
+                        {/*</Button>*/}
                         <div className={style.messageContentTitle}>消息记录</div>
                         <div className={style.messagePanel} ref={chatListRef}>
                             {messageList.map((item: MessageParams, index) => {
