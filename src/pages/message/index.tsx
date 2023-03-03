@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import style from "./index.module.css";
-import {Button, Form, message, Upload, UploadProps} from "antd";
+import {Button, Form, message, Switch, Upload, UploadProps} from "antd";
 import Header from "../../component/Header";
 import {PictureOutlined} from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
@@ -58,11 +58,6 @@ const props: UploadProps = {
     showUploadList: false,
 };
 
-const layout = {
-    labelCol: {span: 10},
-    wrapperCol: {span: 14},
-};
-
 const SendMessage = () => {
     let map: BMapGL.Map;
     let legalFactorPointList: Array<Point> = []
@@ -89,7 +84,6 @@ const SendMessage = () => {
     //------------------聊天框相关----------------------
     // 监听聊天数据的变化，改变聊天容器元素的 scrollTop 值让页面滚到最底部
     useEffect(() => {
-        console.log("----------------------------------")
         const current = chatListRef.current!;
         //scrollHeight是页面的高度
         current["scrollTop"] = current["scrollHeight"];
@@ -100,7 +94,6 @@ const SendMessage = () => {
     };
     //发送消息
     const sendValidationFactor = (factor: any) => {
-        console.log(objTrans_(factor),"------")
         SendValidationFactor<any>(objTrans_(factor)).then((data) => {
             if (factor.Flag == 3){
                 updateBLMapGL(factor,false)
@@ -165,7 +158,6 @@ const SendMessage = () => {
 
     //初始化选中文件并解析展示
     useEffect(() => {
-        console.log("----------------------------------")
         initMap();
     }, []);
 
@@ -176,6 +168,13 @@ const SendMessage = () => {
          illegalData = await processingCsvData('Dataset_20230222_present_User1_feifa.csv')
         //初始化地图
         map = initBasicsBMapGL();
+         //初始化获取第一个点的信息
+        LegitimacyCheck({"username":localStorage.getItem(USER_NAME)}).then((r: any) => {
+            if (r) {
+                sendValidationFactor(legalData[currentNumForLegal])
+                currentNumForLegal++
+            }
+        })
         startLegalInterval(legalData)
     }
 
@@ -183,6 +182,9 @@ const SendMessage = () => {
     const updateBLMapGL = (data: FactorParams,type=true) => {
         let curPoint = getBMapGLPoint(data)
         let curMarker = getBMapGLMarker(curPoint).marker
+        curMarker.addEventListener("click", (e: any) => {
+            setCurrentFactor(data)
+        })
         curMarker.disableMassClear();
         if (type){
             legalFactorPointList.push(curPoint.point)
@@ -210,6 +212,7 @@ const SendMessage = () => {
         map.addOverlay(curMarker)
     }
 
+    //获取文件并解析返回数据
     const processingCsvData = async (fileName: string) => {
         //文件获取
         let scvFile = await axios.get("/static/user/" + fileName)
@@ -259,15 +262,14 @@ const SendMessage = () => {
         }, ILLEGALITY_VERIFICATION_INTERVAL)
     }
 
-    const changgeMode = ()=>{
-        if (tpp){
-            clearInterval(legalInterval)
-            startIllegalityInterval(illegalData)
-        }else {
+    const changgeMode = (checked:boolean)=>{
+        if (checked){
             clearInterval(illegalInterval)
             startLegalInterval(legalData)
+        }else {
+            clearInterval(legalInterval)
+            startIllegalityInterval(illegalData)
         }
-        tpp = !tpp
     }
 
     //------------------地图相关----------------------
@@ -302,7 +304,6 @@ const SendMessage = () => {
     return (
         <div className={style["body-container"]}>
             <Header></Header>
-            <Button onClick={changgeMode}>xxxx</Button>
             <div className={style.messageContainer}>
                 <div className={style.message}>
                     <div className={style.sendMessage}>
@@ -342,29 +343,25 @@ const SendMessage = () => {
                     </div>
                     <div className={style.factors}>
                         <div className={style.messageContentTitle}>
-                            <div className={style.factorDetailTitle}>因子信息</div>
+                            <div className={style.factorDetailTitle}>因子信息
+                                <Switch checkedChildren="正常" unCheckedChildren="异常" defaultChecked onChange={changgeMode} />
+                                </div>
                             <div className={style.factorDetailContent}>
                                 <div className={style.factorDetail}>
-                                    Service Type:{currentFactor["Service Type"] | 0}{" "}
+                                    Service Type:{currentFactor["Service Type"] || 0}
                                 </div>
                                 <div className={style.factorDetail}>
                                     Distance between BS and User:
-                                    {currentFactor["Distance between BS and User"] | 0}
+                                    {currentFactor["Distance between BS and User"] || 0}
                                 </div>
                                 <div className={style.factorDetail}>
-                                    Index of Satellite:{currentFactor["Index of Satellite"] | 0}
+                                    Index of Satellite:{currentFactor["Index of Satellite"] || 0}
                                 </div>
                                 <div className={style.factorDetail}>
-                                    Service Type:{currentFactor["Service Type"] | 0}
+                                    Velocity of User(m/s):
+                                    {(currentFactor["Velocity of User"]*1000).toFixed(2) || 0}
                                 </div>
                             </div>
-
-                            {/*<Descriptions title="因子信息" contentStyle={ { whiteSpace: 'nowrap'}} labelStyle={{whiteSpace:'nowrap'}}>*/}
-                            {/*    <Descriptions.Item label="Service Type">{currentFactor['Service Type']}</Descriptions.Item>*/}
-                            {/*    <Descriptions.Item label="Distance between BS and User" >{currentFactor['Distance between BS and User']}</Descriptions.Item>*/}
-                            {/*    <Descriptions.Item label="Index of Satellite">{currentFactor['Index of Satellite']}</Descriptions.Item>*/}
-                            {/*    <Descriptions.Item label="Remark">{currentFactor['Service Type']}</Descriptions.Item>*/}
-                            {/*</Descriptions>*/}
                         </div>
 
                         <div className={style.mapContainer} id="container"></div>

@@ -2,14 +2,14 @@ import { request } from "./request";
 
 //登录  --本地校验
 export const UserLogin = <T>(params: any) =>
-    request.post<T>("/auth", params, { timeout: 15000 });
+    request.post<T>("/user/auth", params, { timeout: 15000 });
 
 export const LegitimacyCheck = <T>(params: any) =>
-    request.post<T>("/legitimacyCheck", params, { timeout: 15000 });
+    request.post<T>("/user/legitimacyCheck", params, { timeout: 15000 });
 
 //发送验证因子
 export const SendValidationFactor = <T>(params: any) =>
-  request.post<T>("/factorCheck", params);
+  request.post<T>("/user/factorCheck", {});
 
 
 //-----------------------------
