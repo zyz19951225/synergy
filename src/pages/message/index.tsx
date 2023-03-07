@@ -72,8 +72,8 @@ let currentInterval: any
 let legalInterval: any;
 let illegalInterval: any;
 const SendMessage = () => {
-    let legalInterval: any;
-    let illegalInterval: any;
+    // let legalInterval: any;
+    // let illegalInterval: any;
     const chatListRef = useRef(null);
     const [form] = Form.useForm();
     const [currentFactor, setCurrentFactor] = useState<FactorParams>(
@@ -275,6 +275,7 @@ const SendMessage = () => {
     }
 
     const changgeMode = (checked: boolean) => {
+        console.log("zjlabUser1",checked)
         if (checked) {
             clearInterval(illegalInterval)
             startLegalInterval(legalData)
@@ -317,6 +318,8 @@ const SendMessage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = (intervalType:boolean) => {
+        console.log("-=-=-=-=-=-=-=-=-=-=")
+        console.log(intervalType)
         if (intervalType) {
             currentInterval = 'legalInterval'
             clearInterval(legalInterval)
@@ -327,7 +330,14 @@ const SendMessage = () => {
         setIsModalOpen(true);
     };
 
+    useEffect(()=>{
+        if (isModalOpen){
+
+        }
+    },[isModalOpen])
+
     const handleOk = () => {
+        console.log(currentInterval)
         if (currentInterval == 'illegalInterval') {
             startIllegalityInterval(illegalData)
         } else {
