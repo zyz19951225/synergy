@@ -10,8 +10,8 @@ import Papa from "papaparse";
 import axios from "axios";
 import {ILLEGALITY_VERIFICATION_INTERVAL, LEGAL_VERIFICATION_INTERVAL, USER_NAME,} from "../../constant/Constant";
 import {getBMapGLMarker, getBMapGLPoint, initBasicsBMapGL} from "../../utils/initBMapGL";
-import Point = BMapGL.Point;
 import Login from "../login";
+import Point = BMapGL.Point;
 
 
 const getBase64 = (file: any): Promise<string> =>
@@ -58,21 +58,22 @@ const props: UploadProps = {
         "https://mock.mengxuegu.com/mock/618c70f84c5d9932f7e75d90/example/createNewJob",
     showUploadList: false,
 };
-
+let map: BMapGL.Map;
+let legalFactorPointList: Array<Point> = []
+let illegalFactorPointList: Array<Point> = []
+let allFactorPointList: Array<Point> = []
+let legalData: any;
+let illegalData: any;
+let currentNumForLegal = 0;
+let currentNumForILLegal = 0;
+let abnormalBMapGLPolyline: any;
+let normalBMapGLPolyline: any;
+let currentInterval: any
+let legalInterval: any;
+let illegalInterval: any;
 const SendMessage = () => {
-    let map: BMapGL.Map;
-    let legalFactorPointList: Array<Point> = []
-    let illegalFactorPointList: Array<Point> = []
-    let allFactorPointList: Array<Point> = []
-    let legalInterval:any;
-    let illegalInterval:any;
-    let legalData:any;
-    let illegalData:any;
-    let currentNumForLegal = 0;
-    let currentNumForILLegal = 0;
-    let tpp = true;
-    let abnormalBMapGLPolyline: any;
-    let normalBMapGLPolyline: any;
+    let legalInterval: any;
+    let illegalInterval: any;
     const chatListRef = useRef(null);
     const [form] = Form.useForm();
     const [currentFactor, setCurrentFactor] = useState<FactorParams>(
@@ -81,6 +82,8 @@ const SendMessage = () => {
     const [previewImage, setPreviewImage] = useState<string>("");
     const [messageList, setMessageList] = useState<MessageParams[]>([]);
     const [messageItem, setMessageItem] = useState<string>("");
+   // const [illegalInterval, setIllegalInterval] = useState<any>();
+   // const [legalInterval, setLegalInterval] = useState<any>();
 
     //------------------聊天框相关----------------------
     // 监听聊天数据的变化，改变聊天容器元素的 scrollTop 值让页面滚到最底部
@@ -96,11 +99,11 @@ const SendMessage = () => {
     //发送消息
     const sendValidationFactor = (factor: any) => {
         SendValidationFactor<any>(objTrans_(factor)).then((data) => {
-            if (factor.Flag == 3){
-                updateBLMapGL(factor,false)
-            }else {
+            if (factor.Flag == 3) {
+                updateBLMapGL(factor, false)
+            } else {
                 updateBLMapGL(factor)
-             }
+            }
         });
     };
     //消息应答组件
@@ -164,18 +167,18 @@ const SendMessage = () => {
 
     const initMap = async () => {
         //合法数据
-         legalData = await processingCsvData('Dataset_20230222_present_User1_hefa.csv')
+        legalData = await processingCsvData('Dataset_20230222_present_User1_hefa.csv')
         //非法数据
-         illegalData = await processingCsvData('Dataset_20230222_present_User1_feifa.csv')
+        illegalData = await processingCsvData('Dataset_20230222_present_User1_feifa.csv')
         console.log(illegalData)
         //初始化地图
         map = initBasicsBMapGL();
-         //初始化获取第一个点的信息
-        LegitimacyCheck({"username":localStorage.getItem(USER_NAME)}).then((r: any) => {
+        //初始化获取第一个点的信息
+        LegitimacyCheck({"username": localStorage.getItem(USER_NAME)}).then((r: any) => {
             if (r) {
                 sendValidationFactor(legalData[currentNumForLegal])
                 currentNumForLegal++
-            }else {
+            } else {
                 //验证失败 重新登录校验
                 console.log()
             }
@@ -184,16 +187,16 @@ const SendMessage = () => {
     }
 
     //更新地图节点
-    const updateBLMapGL = (data: FactorParams,type=true) => {
+    const updateBLMapGL = (data: FactorParams, type = true) => {
         let curPoint = getBMapGLPoint(data)
         let curMarker = getBMapGLMarker(curPoint).marker
         curMarker.addEventListener("click", (e: any) => {
             setCurrentFactor(data)
         })
         curMarker.disableMassClear();
-        if (type){
+        if (type) {
             legalFactorPointList.push(curPoint.point)
-        }else {
+        } else {
             illegalFactorPointList.push(curPoint.point)
         }
         allFactorPointList.push(curPoint.point)
@@ -203,12 +206,12 @@ const SendMessage = () => {
             strokeWeight: 1,
             strokeOpacity: 0.5,
         });
-        if (illegalFactorPointList.length>0)
-        abnormalBMapGLPolyline = new BMapGL.Polyline(illegalFactorPointList, {
-            strokeColor: "#ff0000",
-            strokeWeight: 1,
-            strokeOpacity: 0.5,
-        });
+        if (illegalFactorPointList.length > 0)
+            abnormalBMapGLPolyline = new BMapGL.Polyline(illegalFactorPointList, {
+                strokeColor: "#ff0000",
+                strokeWeight: 1,
+                strokeOpacity: 0.5,
+            });
         map.clearOverlays();
         map.addOverlay(normalBMapGLPolyline)
         map.addOverlay(abnormalBMapGLPolyline)
@@ -249,6 +252,8 @@ const SendMessage = () => {
                 if (r) {
                     sendValidationFactor(data[currentNumForLegal])
                     currentNumForLegal++
+                }else {
+                    showModal(true)
                 }
             })
         }, LEGAL_VERIFICATION_INTERVAL)
@@ -262,16 +267,18 @@ const SendMessage = () => {
                 if (r) {
                     sendValidationFactor(data[currentNumForILLegal])
                     currentNumForILLegal++
+                }else {
+                    showModal(false)
                 }
             })
         }, ILLEGALITY_VERIFICATION_INTERVAL)
     }
 
-    const changgeMode = (checked:boolean)=>{
-        if (checked){
+    const changgeMode = (checked: boolean) => {
+        if (checked) {
             clearInterval(illegalInterval)
             startLegalInterval(legalData)
-        }else {
+        } else {
             clearInterval(legalInterval)
             startIllegalityInterval(illegalData)
         }
@@ -291,7 +298,7 @@ const SendMessage = () => {
     const objTrans_ = (obj: FactorParams) => {
         let newObj = Object.entries(obj)
         newObj.forEach(item => {
-            item[0] = item[0].replaceAll(" ","_")
+            item[0] = item[0].replaceAll(" ", "_")
         })
         return Object.fromEntries(newObj)
     }
@@ -309,11 +316,23 @@ const SendMessage = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const showModal = () => {
+    const showModal = (intervalType:boolean) => {
+        if (intervalType) {
+            currentInterval = 'legalInterval'
+            clearInterval(legalInterval)
+        } else {
+            currentInterval = 'illegalInterval'
+            clearInterval(illegalInterval)
+        }
         setIsModalOpen(true);
     };
 
     const handleOk = () => {
+        if (currentInterval == 'illegalInterval') {
+            startIllegalityInterval(illegalData)
+        } else {
+            startLegalInterval(legalData)
+        }
         setIsModalOpen(false);
     };
 
@@ -323,8 +342,13 @@ const SendMessage = () => {
 
     return (
         <div className={style["body-container"]}>
-            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-               <Login></Login>
+            <Modal title="Basic Modal"
+                   width={1000}
+                   open={isModalOpen}
+                  footer={null}
+                   closable={false}
+                   >
+                <Login source="loginCheck" loginCheck={handleOk}></Login>
             </Modal>
             <Header></Header>
             <div className={style.messageContainer}>
@@ -370,8 +394,9 @@ const SendMessage = () => {
                     <div className={style.factors}>
                         <div className={style.messageContentTitle}>
                             <div className={style.factorDetailTitle}>因子信息
-                                <Switch checkedChildren="正常" unCheckedChildren="异常" defaultChecked onChange={changgeMode} />
-                                </div>
+                                <Switch checkedChildren="正常" unCheckedChildren="异常" defaultChecked
+                                        onChange={changgeMode}/>
+                            </div>
                             <div className={style.factorDetailContent}>
                                 <div className={style.factorDetail}>
                                     Service Type:{currentFactor["Service Type"] || 0}
@@ -385,7 +410,7 @@ const SendMessage = () => {
                                 </div>
                                 <div className={style.factorDetail}>
                                     Velocity of User(m/s):
-                                    {(currentFactor["Velocity of User"]*1000).toFixed(2) || 0}
+                                    {(currentFactor["Velocity of User"] * 1000).toFixed(2) || 0}
                                 </div>
                             </div>
                         </div>

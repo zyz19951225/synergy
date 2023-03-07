@@ -11,7 +11,7 @@ const getRoutes = () => {
   return [
     {
       path: "/",
-      element: <Login />,
+      element: <Login source={undefined} loginCheck={undefined}/>,
     },
     {
       path: "/sendMessage",
