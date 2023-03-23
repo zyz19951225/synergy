@@ -1,0 +1,69 @@
+.bodyContainer {
+  /*border: 1px solid black;*/
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.loginContainer {
+  flex: 1;
+  margin: 10%;
+}
+
+.loginTitle {
+  font-size: 30px;
+  font-weight: bolder;
+  padding: 0 30px;
+}
+
+.loginForm {
+  /*border: 1px solid black;*/
+  display: flex;
+  height: 100%;
+}
+
+.certificateTitle {
+  padding: 10px 20px;
+}
+
+.certificateContent {
+  /*background: lightslategray;*/
+  height: 100%;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.loginLeft {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.loginCertificate {
+  margin: auto;
+  width: 50%;
+}
+
+.certificate {
+  margin: 0 50px;
+}
+
+.title {
+  margin-bottom: 50px;
+}
+
+.form {
+  margin: auto;
+  text-align: center;
+  align-items: center;
+  width: 30%;
+}
+
+.loginItem {
+  max-width: 50%;
+}

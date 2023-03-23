@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import style from "./index.module.css";
-import {Button, Form, message, Modal, Switch, Upload, UploadProps} from "antd";
+import {Button, Drawer, Form, message, Modal, Switch, Upload, UploadProps} from "antd";
 import Header from "../../component/Header";
 import {PictureOutlined} from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
@@ -10,7 +10,7 @@ import Papa from "papaparse";
 import axios from "axios";
 import {ILLEGALITY_VERIFICATION_INTERVAL, LEGAL_VERIFICATION_INTERVAL, USER_NAME,} from "../../constant/Constant";
 import {getBMapGLMarker, getBMapGLPoint, initBasicsBMapGL} from "../../utils/initBMapGL";
-import Login from "../login";
+import Login from "../duplicationCheck";
 import Point = BMapGL.Point;
 
 
@@ -350,14 +350,13 @@ const SendMessage = () => {
 
     return (
         <div className={style["body-container"]}>
-            <Modal title="Basic Modal"
-                   width={1000}
-                   open={isModalOpen}
-                   footer={null}
-                   closable={false}
+            <Drawer
+                placement={"left"}
+                closable={false}
+                open={isModalOpen}
             >
-                <Login source="loginCheck" loginCheck={handleOk}></Login>
-            </Modal>
+                <Login loginCheck={handleOk}></Login>
+            </Drawer>
             <Header></Header>
             <div className={style.messageContainer}>
                 <div className={style.message}>
