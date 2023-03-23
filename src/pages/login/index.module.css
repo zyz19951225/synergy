@@ -10,6 +10,7 @@
   border: solid 1px black;
   margin: 10%;
   border-radius: 10px;
+  min-width: 800px;
 }
 
 .loginTitle {
@@ -21,8 +22,8 @@
 .loginForm {
   /*border: 1px solid black;*/
   display: flex;
-  justify-content: space-between;
-  height: 80%;
+  height: 100%;
+  min-width: 800px;
 }
 
 .certificateTitle {
@@ -31,7 +32,7 @@
 
 .certificateContent {
   /*background: lightslategray;*/
-  height: 80%;
+  height: 100%;
   width: 80%;
   margin: auto;
   display: flex;
@@ -43,8 +44,8 @@
 
 .loginLeft {
   margin: auto;
-  width: 50%;
-  border-right: 1px solid black;
+  display: flex;
+  justify-content: center;
 }
 
 .loginCertificate {
@@ -68,5 +69,6 @@
 }
 
 .loginItem {
-  height: 260px;
+  min-width: 600px;
+  max-width: 50%;
 }

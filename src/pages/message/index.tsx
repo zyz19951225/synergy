@@ -82,8 +82,8 @@ const SendMessage = () => {
     const [previewImage, setPreviewImage] = useState<string>("");
     const [messageList, setMessageList] = useState<MessageParams[]>([]);
     const [messageItem, setMessageItem] = useState<string>("");
-   // const [illegalInterval, setIllegalInterval] = useState<any>();
-   // const [legalInterval, setLegalInterval] = useState<any>();
+    // const [illegalInterval, setIllegalInterval] = useState<any>();
+    // const [legalInterval, setLegalInterval] = useState<any>();
 
     //------------------聊天框相关----------------------
     // 监听聊天数据的变化，改变聊天容器元素的 scrollTop 值让页面滚到最底部
@@ -104,6 +104,8 @@ const SendMessage = () => {
             } else {
                 updateBLMapGL(factor)
             }
+        }).catch((err:any)=>{
+            console.error(err)
         });
     };
     //消息应答组件
@@ -247,14 +249,12 @@ const SendMessage = () => {
     //合法数据校验
     const startLegalInterval = (data: any) => {
         legalInterval = setInterval(() => {
-            console.log("合法数据校验",currentNumForLegal)
-            LegitimacyCheck({"username":localStorage.getItem(USER_NAME)}).then((r: any) => {
-                if (r) {
-                    sendValidationFactor(data[currentNumForLegal])
-                    currentNumForLegal++
-                }else {
-                    showModal(true)
-                }
+            console.log("合法数据校验", currentNumForLegal)
+            LegitimacyCheck({"username": localStorage.getItem(USER_NAME)}).then((r: any) => {
+                sendValidationFactor(data[currentNumForLegal])
+                currentNumForLegal++
+            }).catch((err: any) => {
+                showModal(true)
             })
         }, LEGAL_VERIFICATION_INTERVAL)
     }
@@ -262,20 +262,18 @@ const SendMessage = () => {
     //非法数据校验
     const startIllegalityInterval = (data: any) => {
         illegalInterval = setInterval(() => {
-            console.log("非法数据校验",currentNumForILLegal)
-            LegitimacyCheck({"username":localStorage.getItem(USER_NAME)}).then((r: any) => {
-                if (r) {
+            console.log("非法数据校验", currentNumForILLegal)
+            LegitimacyCheck({"username": localStorage.getItem(USER_NAME)}).then((r: any) => {
                     sendValidationFactor(data[currentNumForILLegal])
                     currentNumForILLegal++
-                }else {
-                    showModal(false)
-                }
+            }).catch((err:any)=>{
+                showModal(false)
             })
         }, ILLEGALITY_VERIFICATION_INTERVAL)
     }
 
     const changgeMode = (checked: boolean) => {
-        console.log("zjlabUser1",checked)
+        console.log("zjlabUser1", checked)
         if (checked) {
             clearInterval(illegalInterval)
             startLegalInterval(legalData)
@@ -317,7 +315,7 @@ const SendMessage = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const showModal = (intervalType:boolean) => {
+    const showModal = (intervalType: boolean) => {
         console.log("-=-=-=-=-=-=-=-=-=-=")
         console.log(intervalType)
         if (intervalType) {
@@ -330,11 +328,11 @@ const SendMessage = () => {
         setIsModalOpen(true);
     };
 
-    useEffect(()=>{
-        if (isModalOpen){
+    useEffect(() => {
+        if (isModalOpen) {
 
         }
-    },[isModalOpen])
+    }, [isModalOpen])
 
     const handleOk = () => {
         console.log(currentInterval)
@@ -355,9 +353,9 @@ const SendMessage = () => {
             <Modal title="Basic Modal"
                    width={1000}
                    open={isModalOpen}
-                  footer={null}
+                   footer={null}
                    closable={false}
-                   >
+            >
                 <Login source="loginCheck" loginCheck={handleOk}></Login>
             </Modal>
             <Header></Header>

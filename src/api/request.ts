@@ -87,8 +87,6 @@ const requestHandler = <T>(
           }
 
           const e = JSON.stringify(data);
-          message.warn(`请求错误：${e}`);
-          console.log(`请求错误：${e}`);
           //数据请求错误 使用reject将错误返回
           reject(data.data);
         } else {
@@ -98,7 +96,7 @@ const requestHandler = <T>(
       })
       .catch((error) => {
         const e = JSON.stringify(error);
-        message.warn(`网络错误：${e}`);
+        message.warn(`网络错误`);
         console.log(`网络错误：${e}`);
         reject(error);
       });
