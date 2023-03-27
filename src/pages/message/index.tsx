@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import style from "./index.module.css";
 import {Button, Drawer, Form, message, Modal, Switch, Upload, UploadProps} from "antd";
 import Header from "../../component/Header";
-import {PictureOutlined} from "@ant-design/icons";
+import {ApiOutlined, PictureOutlined, UserOutlined} from "@ant-design/icons";
 import TextArea from "antd/es/input/TextArea";
 import {MessageItemLeft, MessageItemRight} from "../../component/Message";
 import {LegitimacyCheck, SendValidationFactor} from "../../api";
@@ -350,13 +350,6 @@ const SendMessage = () => {
 
     return (
         <div className={style["body-container"]}>
-            <Drawer
-                placement={"left"}
-                closable={false}
-                open={isModalOpen}
-            >
-                <Login loginCheck={handleOk}></Login>
-            </Drawer>
             <Header></Header>
             <div className={style.messageContainer}>
                 <div className={style.message}>
@@ -366,6 +359,16 @@ const SendMessage = () => {
                         {/*</Button>*/}
                         <div className={style.messageContentTitle}>消息记录</div>
                         <div className={style.messagePanel} ref={chatListRef}>
+                            <Modal
+                                transitionName=""
+                                className={style.authModel}
+                                title={<span className={style["model-title"]}><UserOutlined /> 用户异常校验</span>}
+                                open={isModalOpen}
+                                footer={null}
+                                closable={false}
+                            >
+                                <Login loginCheck={handleOk}></Login>
+                            </Modal>
                             {messageList.map((item: MessageParams, index) => {
                                 return (<>
                                     <MessageItemLeft

@@ -5,6 +5,10 @@
   height: 100%;
 }
 
+.loginTitle{
+  margin-top: 50px;
+}
+
 .loginContainer {
   flex: 1;
   border: solid 1px black;
@@ -71,4 +75,5 @@
 .loginItem {
   min-width: 600px;
   max-width: 50%;
+  margin: 0;
 }

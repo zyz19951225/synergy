@@ -1,101 +1,112 @@
 .body-container {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .messageContainer {
-  flex: 1 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    flex: 1 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .message {
-  display: flex;
-  /*height: 80vh;*/
-  padding: 20px 50px;
-  height: calc(100vh - 150px);
+    display: flex;
+    /*height: 80vh;*/
+    padding: 20px 50px;
+    height: calc(100vh - 150px);
 }
 
 .sendMessage {
-  border: 2px solid black;
-  border-radius: 4px;
-  width: 40%;
-  display: flex;
-  flex-direction: column;
-  min-width: 500px;
+    border: 2px solid black;
+    border-radius: 4px;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    min-width: 500px;
 }
 
 .messageContentTitle {
-  font-weight: bold;
-  margin: 10px;
-  font-size: large;
+    font-weight: bold;
+    margin: 10px;
+    font-size: large;
 }
 
 .factorDetailTitle {
-  font-size: 20px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
 }
 
 .factorDetailContent {
-  font-size: 15px;
-  display: flex;
-  white-space: nowrap;
-  justify-content: space-between;
-  flex-wrap: wrap;
+    font-size: 15px;
+    display: flex;
+    white-space: nowrap;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .factorDetail {
-  margin: 0 10px;
+    margin: 0 10px;
 }
 
 .mapContainer {
-  flex: 1;
-  margin: 10px;
-  border: 1px solid black;
+    flex: 1;
+    margin: 10px;
+    border: 1px solid black;
 }
 
 .messagePanel {
-  border-bottom: 1px solid;
-  border-top: 1px solid;
-  flex: 1;
-  overflow: auto;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    flex: 1;
+    overflow: auto;
 }
 
 .messageContent {
-  height: 20%;
-  /*border: 1px solid black;*/
+    height: 20%;
+    /*border: 1px solid black;*/
 }
 
 .factors {
-  height: 100%;
-  width: 60%;
-  display: flex;
-  flex-direction: column;
+    height: 100%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
 }
 
 .factorsItem {
-  display: grid;
-  grid-template-columns: repeat(2, 50%);
-  padding: 5px 44px;
-  align-items: center;
-  min-width: 500px;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    padding: 5px 44px;
+    align-items: center;
+    min-width: 500px;
 }
 
 .itemBk {
-  background: lightslategray;
+    background: lightslategray;
 }
 
 .factorsItems {
-  flex: 1;
-  flex-basis: 0px;
-  overflow-y: scroll;
+    flex: 1;
+    flex-basis: 0px;
+    overflow-y: scroll;
 }
 
 .sendButton {
-  text-align: center;
-  padding-bottom: 1rem;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.model-title {
+    color: red;
+}
+
+.authModel {
+    margin: 0;
+    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
 }

@@ -88,7 +88,9 @@ const Login = (props: propsType) => {
   return (
       <div className={style.bodyContainer}>
         {contextHolder}
-        <Title></Title>
+        <div className={style.loginTitle}>
+          <Title></Title>
+        </div>
         <div className={style.loginContainer}>
           {/*<span className={style.loginTitle}>登录</span>*/}
           <div className={style.loginForm}>
