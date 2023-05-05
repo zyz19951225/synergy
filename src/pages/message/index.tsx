@@ -13,7 +13,7 @@ import {getBMapGLMarker, getBMapGLPoint, initBasicsBMapGL} from "../../utils/ini
 import Login from "../duplicationCheck";
 import Point = BMapGL.Point;
 
-
+//加密
 const getBase64 = (file: any): Promise<string> =>
     new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -74,24 +74,29 @@ let illegalInterval: any;
 const SendMessage = () => {
     // let legalInterval: any;
     // let illegalInterval: any;
+    //聊天框Ref
     const chatListRef = useRef(null);
     const [form] = Form.useForm();
+    //当前验证因子
     const [currentFactor, setCurrentFactor] = useState<FactorParams>(
         {} as FactorParams
     );
+    //图片
     const [previewImage, setPreviewImage] = useState<string>("");
+    //消息列表
     const [messageList, setMessageList] = useState<MessageParams[]>([]);
+    //消息体
     const [messageItem, setMessageItem] = useState<string>("");
     // const [illegalInterval, setIllegalInterval] = useState<any>();
     // const [legalInterval, setLegalInterval] = useState<any>();
 
     //------------------聊天框相关----------------------
     // 监听聊天数据的变化，改变聊天容器元素的 scrollTop 值让页面滚到最底部
-    useEffect(() => {
-        const current = chatListRef.current!;
-        //scrollHeight是页面的高度
-        current["scrollTop"] = current["scrollHeight"];
-    }, [messageList]);
+    // useEffect(() => {
+    //     const current = chatListRef.current!;
+    //     //scrollHeight是页面的高度
+    //     current["scrollTop"] = current["scrollHeight"];
+    // }, [messageList]);
     //输入框改变收集内容
     const onmessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setMessageItem(e.target.value);
@@ -167,6 +172,7 @@ const SendMessage = () => {
         initMap();
     }, []);
 
+    //地图初始化
     const initMap = async () => {
         //合法数据
         legalData = await processingCsvData('Dataset_20230222_present_User1_hefa.csv')
@@ -316,8 +322,6 @@ const SendMessage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = (intervalType: boolean) => {
-        console.log("-=-=-=-=-=-=-=-=-=-=")
-        console.log(intervalType)
         if (intervalType) {
             currentInterval = 'legalInterval'
             clearInterval(legalInterval)
@@ -353,54 +357,56 @@ const SendMessage = () => {
             <Header></Header>
             <div className={style.messageContainer}>
                 <div className={style.message}>
-                    <div className={style.sendMessage}>
-                        {/*<Button type="primary" onClick={showModal}>*/}
-                        {/*    Open Modal*/}
-                        {/*</Button>*/}
-                        <div className={style.messageContentTitle}>消息记录</div>
-                        <div className={style.messagePanel} ref={chatListRef}>
-                            <Modal
-                                transitionName=""
-                                className={style.authModel}
-                                title={<span className={style["model-title"]}><UserOutlined /> 用户异常校验</span>}
-                                open={isModalOpen}
-                                footer={null}
-                                closable={false}
-                            >
-                                <Login loginCheck={handleOk}></Login>
-                            </Modal>
-                            {messageList.map((item: MessageParams, index) => {
-                                return (<>
-                                    <MessageItemLeft
-                                        key={index}
-                                        head={item.head}
-                                        content={item.content}
-                                        username={item.username}
-                                    ></MessageItemLeft>
-                                    {reply(index + 1)}
-                                </>)
-                            })}
-                        </div>
-                        <div>
-                            <Upload
-                                {...props}
-                                beforeUpload={getUrl}
-                                onChange={onChange}
-                                data={{info: form.getFieldsValue()}}
-                            >
-                                <Button icon={<PictureOutlined/>} type="primary"></Button>
-                            </Upload>
-                        </div>
-                        <div className={style.messageContent}>
-                            <TextArea
-                                style={{height: "100%", resize: "none"}}
-                                value={messageItem}
-                                placeholder="请输入消息内容..."
-                                onChange={onmessageChange}
-                                onPressEnter={sendMessage}
-                            />
-                        </div>
+                    <div className={style.leftVideo}>
+                        <video width="100%" height="100%" controls autoPlay>
+                            <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" type="video/ogg"></source>
+                        </video>
                     </div>
+                    {/*<div className={style.sendMessage}>*/}
+                    {/*    <div className={style.messageContentTitle}>消息记录</div>*/}
+                    {/*    <div className={style.messagePanel} ref={chatListRef}>*/}
+                    {/*        <Modal*/}
+                    {/*            transitionName=""*/}
+                    {/*            className={style.authModel}*/}
+                    {/*            title={<span className={style["model-title"]}><UserOutlined /> 用户异常校验</span>}*/}
+                    {/*            open={false}*/}
+                    {/*            footer={null}*/}
+                    {/*            closable={false}*/}
+                    {/*        >*/}
+                    {/*            <Login loginCheck={handleOk}></Login>*/}
+                    {/*        </Modal>*/}
+                    {/*        {messageList.map((item: MessageParams, index) => {*/}
+                    {/*            return (<>*/}
+                    {/*                <MessageItemLeft*/}
+                    {/*                    key={index}*/}
+                    {/*                    head={item.head}*/}
+                    {/*                    content={item.content}*/}
+                    {/*                    username={item.username}*/}
+                    {/*                ></MessageItemLeft>*/}
+                    {/*                {reply(index + 1)}*/}
+                    {/*            </>)*/}
+                    {/*        })}*/}
+                    {/*    </div>*/}
+                    {/*    <div>*/}
+                    {/*        <Upload*/}
+                    {/*            {...props}*/}
+                    {/*            beforeUpload={getUrl}*/}
+                    {/*            onChange={onChange}*/}
+                    {/*            data={{info: form.getFieldsValue()}}*/}
+                    {/*        >*/}
+                    {/*            <Button icon={<PictureOutlined/>} type="primary"></Button>*/}
+                    {/*        </Upload>*/}
+                    {/*    </div>*/}
+                    {/*    <div className={style.messageContent}>*/}
+                    {/*        <TextArea*/}
+                    {/*            style={{height: "100%", resize: "none"}}*/}
+                    {/*            value={messageItem}*/}
+                    {/*            placeholder="请输入消息内容..."*/}
+                    {/*            onChange={onmessageChange}*/}
+                    {/*            onPressEnter={sendMessage}*/}
+                    {/*        />*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                     <div className={style.factors}>
                         <div className={style.messageContentTitle}>
                             <div className={style.factorDetailTitle}>因子信息

@@ -39,6 +39,7 @@ const Login = (props: propsType) => {
   const [verification, setVerification] = useState<verificationType>('success')
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  const [usingSite, setUsingSite] = useState('Hangzhou, Zhejiang')
 
   const clickHandle = () => {
     if (props.loginCheck)
@@ -55,20 +56,23 @@ const Login = (props: propsType) => {
   const onFinish = (values: userInfo) => {
     console.log(values)
     values = {...values, password: md5(values.password).toUpperCase()}
-    UserLogin<any>(values).then((data) => {
-      if (props.source === 'loginCheck') {
-        clickHandle()
-      } else {
-        window.localStorage.setItem(USER_NAME, values.userName);
-        naviGate("/sendMessage");
-      }
-    }).catch((e)=>{
-      error()
-    });
+    // UserLogin<any>(values).then((data) => {
+    //   if (props.source === 'loginCheck') {
+    //     clickHandle()
+    //   } else {
+    //     window.localStorage.setItem(USER_NAME, values.userName);
+    //     naviGate("/sendMessage");
+    //   }
+    // }).catch((e)=>{
+    //   error()
+    // });
+    window.localStorage.setItem(USER_NAME, values.userName);
+    naviGate("/sendMessage");
   };
 
   const onPressEnter = (e: any) => {
     e.preventDefault();
+    //前端用户名校验
     if (e.target.value === 'zjlabUser1' || e.target.value === 'zjlabUser2' || e.target.value === 'zjlabUser3') {
       setValidateStatus("success")
     } else {
@@ -78,9 +82,11 @@ const Login = (props: propsType) => {
   const onChange = (e: CheckboxChangeEvent) => {
     if (e.target.checked) {
       form.setFieldsValue({"type":1})
+      setUsingSite('Huzhou,Zhejiang')
       setVerification("error")
     } else {
       form.setFieldsValue({"type":0})
+      setUsingSite('Hangzhou,Zhejiang')
       setVerification("success")
     }
 
@@ -131,7 +137,7 @@ const Login = (props: propsType) => {
                             description={
                               <Descriptions column={1}>
                                 <Descriptions.Item label="证书有限期">2023/12/31</Descriptions.Item>
-                                <Descriptions.Item label="允许使用地">Hangzhou, Zhejiang</Descriptions.Item>
+                                <Descriptions.Item label="使用地"><span style={{color:verification != 'success'?"red":'black'}}>{usingSite}</span></Descriptions.Item>
                               </Descriptions>
                             }
                             type={verification}
