@@ -74,6 +74,6 @@
 
 .loginItem {
   min-width: 600px;
-  max-width: 50%;
+  width: 60%;
   margin: 0;
 }
