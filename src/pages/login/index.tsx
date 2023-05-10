@@ -14,7 +14,8 @@ interface userInfo {
     password: string;
     type: number;
     ip: string;
-    certificate: string
+    certificate: string;
+    area:string
 }
 
 interface propsType {
@@ -45,6 +46,16 @@ const Login = (props: propsType) => {
     //登录验证接口（登录按钮）
     const onFinish = (values: userInfo) => {
         values = {...values, password: md5(values.password).toUpperCase()}
+        //携带验证字符串及ip
+        if (values.type == 0){
+          values.ip = '1.1.1.1';
+          values.certificate = 'zjlab1-certificate';
+          values.area = 'Zhejiang,Hangzhou'
+        }else {
+          values.ip = 'xx';
+          values.certificate = 'xx';
+          values.area = 'Hangzhou,Huzhou'
+        }
         UserLogin<any>(values).then((data) => {
             if (props.source === 'loginCheck') {
             } else {
@@ -102,8 +113,7 @@ const Login = (props: propsType) => {
                             form={form}
                             initialValues={
                                 {
-                                    type: 9999,
-                                    ip: 1,
+                                    type: 0,
                                 }
                             }
                             labelCol={{span: 6}}

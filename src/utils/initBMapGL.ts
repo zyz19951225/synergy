@@ -188,6 +188,7 @@ const initBMapGL = (
 const initBasicsBMapGL = ()=>{
     const map = new BMapGL.Map("container"); // 创建地图实例
     map.enableScrollWheelZoom(); //开启鼠标滚轮
+    map.disableAutoResize()
     return map;
 }
 

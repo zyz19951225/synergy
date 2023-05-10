@@ -107,11 +107,12 @@ const SendMessage = () => {
         map = initBasicsBMapGL();
         //初始化获取第一个点的信息
         LegitimacyCheck({"username": localStorage.getItem(USER_NAME)}).then((r: any) => {
+            console.log("成功了！！！")
                 sendValidationFactor(legalData[currentNumForLegal])
                 currentNumForLegal++
                 startLegalInterval(legalData)
         }).catch(e => {
-            console.log(e)
+            console.log("失败了！！！")
             startLegalInterval(legalData)
             }
         )
@@ -121,6 +122,7 @@ const SendMessage = () => {
     const updateBLMapGL = (data: FactorParams, type = true) => {
         let curPoint = getBMapGLPoint(data)
         let curMarker = getBMapGLMarker(curPoint).marker
+        setCurrentFactor(data)
         curMarker.addEventListener("click", (e: any) => {
             setCurrentFactor(data)
         })
@@ -180,9 +182,11 @@ const SendMessage = () => {
         legalInterval = setInterval(() => {
             console.log("合法数据校验", currentNumForLegal)
             LegitimacyCheck({"username": localStorage.getItem(USER_NAME)}).then((r: any) => {
+                console.log("用户校验成功！！！")
                 sendValidationFactor(data[currentNumForLegal])
                 currentNumForLegal++
             }).catch((err: any) => {
+                console.log("用户校验失败！！！")
                  showModal(true)
             })
         }, LEGAL_VERIFICATION_INTERVAL)
@@ -201,8 +205,9 @@ const SendMessage = () => {
         }, ILLEGALITY_VERIFICATION_INTERVAL)
     }
 
-    const changgeMode = (checked: boolean) => {
-        console.log("zjlabUser1", checked)
+    //切换数据（异常与正常数据）
+    const changeMode = (checked: boolean) => {
+        console.log(checked)
         if (checked) {
             clearInterval(illegalInterval)
             startLegalInterval(legalData)
@@ -226,6 +231,7 @@ const SendMessage = () => {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    //用户异常校验确认
     const handleOk = () => {
         if (currentInterval == 'illegalInterval') {
             startIllegalityInterval(illegalData)
@@ -236,6 +242,7 @@ const SendMessage = () => {
         playPause(true)
     };
 
+    //展示用户异常校验框
     const showModal = (intervalType: boolean) => {
         //暂停视频播放
         playPause(false)
@@ -249,6 +256,7 @@ const SendMessage = () => {
         setIsModalOpen(true);
     };
 
+    //视频播放控制
     const playPause = (isPlay:boolean) => {
         const myVideo = document.getElementsByTagName('video')[0];
         if (isPlay) {
@@ -262,7 +270,6 @@ const SendMessage = () => {
 
     useEffect(() => {
         if (isModalOpen) {
-
         }
     }, [isModalOpen])
 
@@ -283,7 +290,7 @@ const SendMessage = () => {
 
                 <div className={style.message}>
                     <div className={style.leftVideo}>
-                        <video controls autoPlay muted>
+                        <video controls loop autoPlay muted>
                             <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" type="video/ogg"></source>
                         </video>
                     </div>
@@ -291,7 +298,7 @@ const SendMessage = () => {
                         <div className={style.messageContentTitle}>
                             <div className={style.factorDetailTitle}>因子信息
                                 <Switch checkedChildren="正常" unCheckedChildren="异常" defaultChecked
-                                        onChange={changgeMode}/>
+                                        onChange={changeMode}/>
                             </div>
                             <div className={style.factorDetailContent}>
                                 <div className={style.factorDetail}>
