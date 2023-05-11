@@ -291,7 +291,7 @@ const SendMessage = () => {
                 <div className={style.message}>
                     <div className={style.leftVideo}>
                         <video controls loop autoPlay muted>
-                            <source src="http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4" type="video/ogg"></source>
+                            <source src={require('../../asserts/big_buck_bunny.mp4')} type="video/mp4"></source>
                         </video>
                     </div>
                     <div className={style.factors}>
