@@ -1,5 +1,5 @@
-import React, {lazy} from "react";
-import {AuthRoute} from "../component/AuthRoute";
+import React, { lazy } from "react";
+import { AuthRoute } from "../component/AuthRoute";
 
 const Login = lazy(() => import("../pages/login"));
 const SendMessage = lazy(() => import("../pages/message"));
@@ -12,31 +12,31 @@ const getRoutes = () => {
   return [
     {
       path: "/",
-      element: <Login source={undefined} loginCheck={undefined}/>,
+      element: <Login source={undefined} loginCheck={undefined} />,
     },
     {
       path: "/sendMessage",
       element: (
-          <AuthRoute>
-            <SendMessage/>
-          </AuthRoute>
+        <AuthRoute>
+          <SendMessage />
+        </AuthRoute>
       ),
     },
     {
       path: "/authDetail",
-      element: <AuthDetail/>,
+      element: <AuthDetail />,
     },
     {
       path: "/authRecord",
-      element: <AuthRecord/>,
+      element: <AuthRecord />,
     },
     {
       path: "/history",
-      element: <HistoricalRoute/>,
+      element: <HistoricalRoute />,
     },
     {
       path: "*",
-      element: <ErrorPage/>,
+      element: <ErrorPage />,
     },
   ];
 };

@@ -36,7 +36,6 @@ const getMapController = (data: any) => {
     // 创建一个DOM元素
     let div = document.createElement("div");
     data.forEach((item: any) => {
-      console.log(item);
       let button = document.createElement("button");
       button.innerHTML = item.tag;
       div.appendChild(button);
@@ -156,45 +155,56 @@ const initBMapGL = (
   }
   //完善用户信息 增加marker属性
   //=------------------------------
-   let normalBMapGLMarkerParamsList = getBMapGLMarkerList(normalBMapGLPointParamsList)
-     let abnormalBMapGLMarkerParamsList = getBMapGLMarkerList(abnormalBMapGLPointParamsList, false)
-     if (normalBMapGLMarkerParamsList.length > 0) {
-         normalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
-             normalBMapGLMarker.push(item.marker)
-         })
+  let normalBMapGLMarkerParamsList = getBMapGLMarkerList(
+    normalBMapGLPointParamsList
+  );
+  let abnormalBMapGLMarkerParamsList = getBMapGLMarkerList(
+    abnormalBMapGLPointParamsList,
+    false
+  );
+  if (normalBMapGLMarkerParamsList.length > 0) {
+    normalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
+      normalBMapGLMarker.push(item.marker);
+    });
 
-         normalBMapGLMarkerParamsList.forEach((item: any) => {
-             if (method) {
-                 item.marker.addEventListener("click", (e: any) => {
-                     method(item)
-                 })
-             }
-             if (infoWindow) {
-                 item.marker.addEventListener("click", (e: any) => {
-                    map.openInfoWindow(getInfoWindow(100,100,"xx",`经度：${item.Latitude}
-                   纬度：${item.Longitude}`),item.point)
-                 })
-             }
-             map.addOverlay(item.marker)
-           // item.marker.hide()
-         })
-
-     }
-     if (abnormalBMapGLMarkerParamsList.length > 0) {
-         abnormalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
-             abnormalBMapGLMarker.push(item.marker)
-         })
-         abnormalBMapGLMarkerParamsList.forEach((item: any) => {
-             if (method) {
-                 item.marker.addEventListener("click", (e: any) => {
-                     method(item)
-                 })
-             }
-             map.addOverlay(item.marker)
-           // item.marker.hide()
-         })
-
-     }
+    normalBMapGLMarkerParamsList.forEach((item: any) => {
+      if (method) {
+        item.marker.addEventListener("click", (e: any) => {
+          method(item);
+        });
+      }
+      if (infoWindow) {
+        item.marker.addEventListener("click", (e: any) => {
+          map.openInfoWindow(
+            getInfoWindow(
+              100,
+              100,
+              "xx",
+              `经度：${item.Latitude}
+                   纬度：${item.Longitude}`
+            ),
+            item.point
+          );
+        });
+      }
+      map.addOverlay(item.marker);
+      // item.marker.hide()
+    });
+  }
+  if (abnormalBMapGLMarkerParamsList.length > 0) {
+    abnormalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
+      abnormalBMapGLMarker.push(item.marker);
+    });
+    abnormalBMapGLMarkerParamsList.forEach((item: any) => {
+      if (method) {
+        item.marker.addEventListener("click", (e: any) => {
+          method(item);
+        });
+      }
+      map.addOverlay(item.marker);
+      // item.marker.hide()
+    });
+  }
   //=------------------------------
 
   //----------自定义控件---------------------
@@ -209,12 +219,13 @@ const initBMapGL = (
         data: abnormalBMapGLPolyline,
       },
       {
-        tag: '正常坐标',
-        data: normalBMapGLMarker
-      }, {
-        tag: '异常坐标',
-        data: abnormalBMapGLMarker
-      }
+        tag: "正常坐标",
+        data: normalBMapGLMarker,
+      },
+      {
+        tag: "异常坐标",
+        data: abnormalBMapGLMarker,
+      },
     ])
   );
   const { center, zoom } = map.getViewport(normalBMapGLPoints);
@@ -222,11 +233,8 @@ const initBMapGL = (
   return map;
 };
 
-export default initBMapGL
+export default initBMapGL;
 
 //-------节点转换工具------
 //节点转换
-export function transformDataToPoint(){
-
-}
-
+export function transformDataToPoint() {}

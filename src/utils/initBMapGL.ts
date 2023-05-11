@@ -3,7 +3,6 @@ import Marker = BMapGL.Marker;
 import Icon = BMapGL.Icon;
 import Size = BMapGL.Size;
 
-
 interface FactorParams {
   "Traffic Volume": number;
   "Service Type": number;
@@ -41,15 +40,15 @@ const getBMapGLMarkerList = (arr: Array<FactorParams>, tag = true) => {
 };
 
 //节点信息增加轨迹信息 单点
-const getBMapGLMarker = (item:FactorParams) => {
-  let icon = item.Flag === 1 ? "/static/greenTarget.png" : "/static/redTarget.png";
-    return {
-      ...item,
-      marker: new BMapGL.Marker(item.point, {
-        icon: new Icon(icon, new Size(10, 10)),
-      }),
-    };
-
+const getBMapGLMarker = (item: FactorParams) => {
+  let icon =
+    item.Flag === 1 ? "/static/greenTarget.png" : "/static/redTarget.png";
+  return {
+    ...item,
+    marker: new BMapGL.Marker(item.point, {
+      icon: new Icon(icon, new Size(10, 10)),
+    }),
+  };
 };
 
 //完善信息 增加地理坐标点
@@ -64,10 +63,10 @@ const getBMapGLPointList = (arr: Array<FactorParams>) => {
 
 //节点信息增加坐标点 单点
 const getBMapGLPoint = (arr: FactorParams) => {
-        return {
-            ...arr,
-            point: new BMapGL.Point(arr["Longitude"], arr["Latitude"]),
-        };
+  return {
+    ...arr,
+    point: new BMapGL.Point(arr["Longitude"], arr["Latitude"]),
+  };
 };
 
 const getInfoWindow = (
@@ -139,45 +138,56 @@ const initBMapGL = (
   }
   //完善用户信息 增加marker属性
   //=------------------------------
-   let normalBMapGLMarkerParamsList = getBMapGLMarkerList(normalBMapGLPointParamsList)
-     let abnormalBMapGLMarkerParamsList = getBMapGLMarkerList(abnormalBMapGLPointParamsList, false)
-     if (normalBMapGLMarkerParamsList.length > 0) {
-         normalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
-             normalBMapGLMarker.push(item.marker)
-         })
+  let normalBMapGLMarkerParamsList = getBMapGLMarkerList(
+    normalBMapGLPointParamsList
+  );
+  let abnormalBMapGLMarkerParamsList = getBMapGLMarkerList(
+    abnormalBMapGLPointParamsList,
+    false
+  );
+  if (normalBMapGLMarkerParamsList.length > 0) {
+    normalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
+      normalBMapGLMarker.push(item.marker);
+    });
 
-         normalBMapGLMarkerParamsList.forEach((item: any) => {
-             if (method) {
-                 item.marker.addEventListener("click", (e: any) => {
-                     method(item)
-                 })
-             }
-             if (infoWindow) {
-                 item.marker.addEventListener("click", (e: any) => {
-                    map.openInfoWindow(getInfoWindow(100,100,"xx",`经度：${item.Latitude}
-                   纬度：${item.Longitude}`),item.point)
-                 })
-             }
-             map.addOverlay(item.marker)
-           // item.marker.hide()
-         })
-
-     }
-     if (abnormalBMapGLMarkerParamsList.length > 0) {
-         abnormalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
-             abnormalBMapGLMarker.push(item.marker)
-         })
-         abnormalBMapGLMarkerParamsList.forEach((item: any) => {
-             if (method) {
-                 item.marker.addEventListener("click", (e: any) => {
-                     method(item)
-                 })
-             }
-             map.addOverlay(item.marker)
-           // item.marker.hide()
-         })
-
-     }
+    normalBMapGLMarkerParamsList.forEach((item: any) => {
+      if (method) {
+        item.marker.addEventListener("click", (e: any) => {
+          method(item);
+        });
+      }
+      if (infoWindow) {
+        item.marker.addEventListener("click", (e: any) => {
+          map.openInfoWindow(
+            getInfoWindow(
+              100,
+              100,
+              "xx",
+              `经度：${item.Latitude}
+                   纬度：${item.Longitude}`
+            ),
+            item.point
+          );
+        });
+      }
+      map.addOverlay(item.marker);
+      // item.marker.hide()
+    });
+  }
+  if (abnormalBMapGLMarkerParamsList.length > 0) {
+    abnormalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
+      abnormalBMapGLMarker.push(item.marker);
+    });
+    abnormalBMapGLMarkerParamsList.forEach((item: any) => {
+      if (method) {
+        item.marker.addEventListener("click", (e: any) => {
+          method(item);
+        });
+      }
+      map.addOverlay(item.marker);
+      // item.marker.hide()
+    });
+  }
   //=------------------------------
 
   const { center, zoom } = map.getViewport(normalBMapGLPoints);
@@ -185,12 +195,19 @@ const initBMapGL = (
   return map;
 };
 
-const initBasicsBMapGL = ()=>{
-    const map = new BMapGL.Map("container"); // 创建地图实例
-    map.enableScrollWheelZoom(); //开启鼠标滚轮
-    let point = new BMapGL.Point(116.404, 39.915);
-    map.centerAndZoom(point, 15);
-    return map;
-}
+const initBasicsBMapGL = () => {
+  const map = new BMapGL.Map("container"); // 创建地图实例
+  map.enableScrollWheelZoom(); //开启鼠标滚轮
+  let point = new BMapGL.Point(116.404, 39.915);
+  map.centerAndZoom(point, 15);
+  return map;
+};
 
-export {getBMapGLMarkerList,getBMapGLPointList,initBasicsBMapGL,initBMapGL,getBMapGLMarker,getBMapGLPoint}
+export {
+  getBMapGLMarkerList,
+  getBMapGLPointList,
+  initBasicsBMapGL,
+  initBMapGL,
+  getBMapGLMarker,
+  getBMapGLPoint,
+};

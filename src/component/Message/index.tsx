@@ -43,11 +43,11 @@ const MessageItemRight = (info: MessageParams) => {
           )}
         </div>
       </div>
-        <div>
-            <Avatar size={40}>{info.head}</Avatar>
-        </div>
+      <div>
+        <Avatar size={40}>{info.head}</Avatar>
+      </div>
     </div>
   );
 };
 
-export {MessageItemLeft,MessageItemRight}
+export { MessageItemLeft, MessageItemRight };

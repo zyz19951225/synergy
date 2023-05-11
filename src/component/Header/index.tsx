@@ -11,7 +11,7 @@ const Header = () => {
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "1") {
-      localStorage.removeItem(USER_NAME);
+      sessionStorage.removeItem(USER_NAME);
       naviGate("/");
     }
   };
@@ -33,7 +33,7 @@ const Header = () => {
         <Dropdown menu={{ items, onClick }}>
           <a onClick={(e) => e.preventDefault()}>
             <Space>
-              {localStorage.getItem(USER_NAME) || "未登录"}
+              {sessionStorage.getItem(USER_NAME) || "未登录"}
               <DownOutlined />
             </Space>
           </a>

@@ -73,7 +73,6 @@ const AuthRecord = () => {
   ];
   const [form] = Form.useForm();
   const onFinish = (values: any) => {
-    console.log(values);
     //根据参数查询数据
     GetAuthRecordList<DataType>(values).then((data) => {
       setUserRecords(data);

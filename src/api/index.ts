@@ -2,15 +2,14 @@ import { request } from "./request";
 
 //登录  --本地校验
 export const UserLogin = <T>(params: any) =>
-    request.post<T>("/user/auth", params, { timeout: 15000 });
+  request.post<T>("/user/auth", params, { timeout: 15000 });
 
 export const LegitimacyCheck = <T>(params: any) =>
-    request.post<T>("/user/legitimacyCheck", params, { timeout: 15000 });
+  request.post<T>("/user/legitimacyCheck", params, { timeout: 15000 });
 
 //发送验证因子
 export const SendValidationFactor = <T>(params: any) =>
   request.post<T>("/user/factorCheck", params);
-
 
 //-----------------------------
 //发送消息
@@ -28,7 +27,6 @@ export const GetAuthRecordList = <T>(params: any) =>
 //获取用户历史记录
 export const GetHistoricalRoute = <T>(params: any) =>
   request.get<T>("/getHistoricalRoute", params);
-
 
 //----------------以下接口暂时取消-----------------
 
