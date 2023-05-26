@@ -65,7 +65,7 @@ const getMapController = (data: any) => {
 };
 
 const getBMapGLMarkerList = (arr: Array<FactorParams>, tag = true) => {
-  let icon = tag ? "/static/greenTarget.png" : "/static/redTarget.png";
+  let icon = tag ? "/static/normal.png" : "/static/abnormal.png";
   return arr.map((value: FactorParams) => {
     return {
       ...value,
@@ -100,7 +100,7 @@ const getInfoWindow = (
   });
 };
 
-const initBMapGL = (
+export const initBMapGL = (
   results: Array<FactorParams>,
   method: Function | null,
   infoWindow: boolean
@@ -228,6 +228,127 @@ const initBMapGL = (
       },
     ])
   );
+  const { center, zoom } = map.getViewport(normalBMapGLPoints);
+  map.centerAndZoom(center, zoom);
+  return map;
+};
+
+export const initHistoryBMapGL = (
+    results: Array<FactorParams>,
+    method: Function | null,
+    infoWindow: boolean
+) => {
+  const map = new BMapGL.Map("container"); // 创建地图实例
+  map.enableScrollWheelZoom(); //开启鼠标滚轮
+  //根据flag拆分节点
+  const normalParamsList = [] as Array<FactorParams>;
+  const abnormalParamsList = [] as Array<FactorParams>;
+  results.forEach((item: FactorParams) => {
+    item.Flag === 1
+        ? normalParamsList.push(item)
+        : abnormalParamsList.push(item);
+  });
+
+  //将坐标转换为 BMapGL.Point 类型
+  // //完善用户信息 增加point属性 地理坐标点
+  let normalBMapGLPointParamsList = getBMapGLPointList(normalParamsList);
+  let abnormalBMapGLPointParamsList = getBMapGLPointList(abnormalParamsList);
+  //将point类型抽取成数组
+  let normalBMapGLPoints = [] as Array<Point>;
+  let abnormalBMapGLPoints = [] as Array<Point>;
+  let normalBMapGLMarker = [] as Array<Marker>;
+  let abnormalBMapGLMarker = [] as Array<Marker>;
+
+  if (normalBMapGLPointParamsList.length > 0) {
+    normalBMapGLPointParamsList.forEach((item: FactorParams) => {
+      normalBMapGLPoints.push(item.point);
+    });
+  }
+
+  if (abnormalBMapGLPointParamsList.length > 0) {
+    abnormalBMapGLPointParamsList.forEach((item: FactorParams) => {
+      abnormalBMapGLPoints.push(item.point);
+    });
+  }
+  //完善用户信息 增加marker属性
+  //=------------------------------
+  let normalBMapGLMarkerParamsList = getBMapGLMarkerList(
+      normalBMapGLPointParamsList
+  );
+  let abnormalBMapGLMarkerParamsList = getBMapGLMarkerList(
+      abnormalBMapGLPointParamsList,
+      false
+  );
+  if (normalBMapGLMarkerParamsList.length > 0) {
+    normalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
+      item.marker.disableMassClear()
+      normalBMapGLMarker.push(item.marker);
+
+    });
+
+    normalBMapGLMarkerParamsList.forEach((item: any) => {
+      if (method) {
+        item.marker.addEventListener("click", (e: any) => {
+          method(item);
+        });
+        item.disableMassClear()
+      }
+      if (infoWindow) {
+        item.marker.addEventListener("click", (e: any) => {
+          map.openInfoWindow(
+              getInfoWindow(
+                  100,
+                  100,
+                  "xx",
+                  `经度：${item.Latitude}
+                   纬度：${item.Longitude}`
+              ),
+              item.point
+          );
+        });
+      }
+      map.addOverlay(item.marker);
+      // item.marker.hide()
+    });
+  }
+  if (abnormalBMapGLMarkerParamsList.length > 0) {
+    abnormalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
+      abnormalBMapGLMarker.push(item.marker);
+    });
+    abnormalBMapGLMarkerParamsList.forEach((item: any) => {
+      if (method) {
+        item.disableMassClear()
+        item.marker.addEventListener("click", (e: any) => {
+          method(item);
+        });
+      }
+      map.addOverlay(item.marker);
+      // item.marker.hide()
+    });
+  }
+  //=------------------------------
+
+  //----------自定义控件---------------------
+  // map.addControl(
+  //     getMapController([
+  //       // {
+  //       //   tag: "正常轨迹",
+  //       //   data: normalBMapGLPolyline,
+  //       // },
+  //       // {
+  //       //   tag: "异常轨迹",
+  //       //   data: abnormalBMapGLPolyline,
+  //       // },
+  //       {
+  //         tag: "正常坐标",
+  //         data: normalBMapGLMarker,
+  //       },
+  //       {
+  //         tag: "异常坐标",
+  //         data: abnormalBMapGLMarker,
+  //       },
+  //     ])
+  // );
   const { center, zoom } = map.getViewport(normalBMapGLPoints);
   map.centerAndZoom(center, zoom);
   return map;

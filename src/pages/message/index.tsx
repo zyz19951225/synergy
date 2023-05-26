@@ -18,6 +18,7 @@ import {
 import Login from "../duplicationCheck";
 import { UserOutlined } from "@ant-design/icons";
 import Point = BMapGL.Point;
+import initBMapGL, {initHistoryBMapGL} from "../../utils/BMapGL";
 
 //加密
 const getBase64 = (file: any): Promise<string> =>
@@ -60,6 +61,7 @@ interface FactorParams {
 }
 
 let map: BMapGL.Map;
+let pointList:Array<Point>
 let legalFactorPointList: Array<Point> = [];
 let illegalFactorPointList: Array<Point> = [];
 let allFactorPointList: Array<Point> = [];
@@ -108,6 +110,13 @@ const SendMessage = () => {
 
   //地图初始化
   const initMap = async () => {
+    let historyData = await processingCsvData(
+        "history.csv"
+    );
+    map = initHistoryBMapGL(historyData.filter((item:FactorParams,index:number)=>{
+      return index % 10 == 0
+    }), null, true);
+
     //合法数据
     legalData = await processingCsvData(
       "Dataset_20230222_present_User1_hefa.csv"
@@ -116,8 +125,8 @@ const SendMessage = () => {
     illegalData = await processingCsvData(
       "Dataset_20230222_present_User1_feifa.csv"
     );
-    //初始化地图
-    map = initBasicsBMapGL();
+    // //初始化地图
+    // map = initBasicsBMapGL();
     //初始化获取第一个点的信息
     LegitimacyCheck({ username: sessionStorage.getItem(USER_NAME) })
       .then((r: any) => {
@@ -138,7 +147,7 @@ const SendMessage = () => {
     curMarker.addEventListener("click", (e: any) => {
       setCurrentFactor(data);
     });
-    curMarker.disableMassClear();
+    //curMarker.disableMassClear();
     if (type) {
       legalFactorPointList.push(curPoint.point);
     } else {
@@ -158,12 +167,24 @@ const SendMessage = () => {
         strokeOpacity: 0.5,
       });
     map.clearOverlays();
-    map.addOverlay(normalBMapGLPolyline);
-    map.addOverlay(abnormalBMapGLPolyline);
+    // map.addOverlay(normalBMapGLPolyline);
+    // map.addOverlay(abnormalBMapGLPolyline);
     const { center, zoom } = map.getViewport(allFactorPointList);
     map.centerAndZoom(center, zoom);
     map.addOverlay(curMarker);
   };
+
+  //获取文件并使用固定步长取数返回数据
+  // const processingCsvData5 = async (fileName: string) => {
+  //   //文件获取
+  //   let scvFile = await axios.get("/static/user/" + fileName);
+  //   //文件数据处理转换
+  //   let factors: any = await transFileData(scvFile);
+  //   return factors.data.filter((item,index)=>{
+  //     return index%5 === 0
+  //   });
+  // };
+
 
   //获取文件并解析返回数据
   const processingCsvData = async (fileName: string) => {
