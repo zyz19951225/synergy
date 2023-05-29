@@ -46,7 +46,7 @@ const getBMapGLMarker = (item: FactorParams) => {
   return {
     ...item,
     marker: new BMapGL.Marker(item.point, {
-      icon: new Icon(icon, new Size(10, 10)),
+      icon: new Icon(icon, new Size(20, 20)),
     }),
   };
 };

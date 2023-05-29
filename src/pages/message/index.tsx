@@ -19,6 +19,7 @@ import Login from "../duplicationCheck";
 import { UserOutlined } from "@ant-design/icons";
 import Point = BMapGL.Point;
 import initBMapGL, {initHistoryBMapGL} from "../../utils/BMapGL";
+import {MapvglLayer, MapvglView} from "react-bmapgl/dist";
 
 //加密
 const getBase64 = (file: any): Promise<string> =>
@@ -61,7 +62,7 @@ interface FactorParams {
 }
 
 let map: BMapGL.Map;
-let pointList:Array<Point>
+let allPoints:Array<Point>
 let legalFactorPointList: Array<Point> = [];
 let illegalFactorPointList: Array<Point> = [];
 let allFactorPointList: Array<Point> = [];
@@ -113,9 +114,9 @@ const SendMessage = () => {
     let historyData = await processingCsvData(
         "history.csv"
     );
-    map = initHistoryBMapGL(historyData.filter((item:FactorParams,index:number)=>{
+    ({map, allPoints} = initHistoryBMapGL(historyData.filter((item:FactorParams,index:number)=>{
       return index % 10 == 0
-    }), null, true);
+    }), null, true));
 
     //合法数据
     legalData = await processingCsvData(
@@ -169,7 +170,8 @@ const SendMessage = () => {
     map.clearOverlays();
     // map.addOverlay(normalBMapGLPolyline);
     // map.addOverlay(abnormalBMapGLPolyline);
-    const { center, zoom } = map.getViewport(allFactorPointList);
+    allPoints.push(curPoint.point)
+    let { center, zoom } = map.getViewport(allPoints);
     map.centerAndZoom(center, zoom);
     map.addOverlay(curMarker);
   };

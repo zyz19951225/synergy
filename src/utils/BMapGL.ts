@@ -3,6 +3,7 @@ import Marker = BMapGL.Marker;
 import Icon = BMapGL.Icon;
 import Size = BMapGL.Size;
 import Control = BMapGL.Control;
+import {customStyle, darkStyle} from "./xx";
 
 interface FactorParams {
   "Traffic Volume": number;
@@ -238,7 +239,8 @@ export const initHistoryBMapGL = (
     method: Function | null,
     infoWindow: boolean
 ) => {
-  const map = new BMapGL.Map("container"); // 创建地图实例
+  //@ts-ignore
+  const map = new BMapGL.Map("container", { style: {styleJson: customStyle } });// 创建地图实例
   map.enableScrollWheelZoom(); //开启鼠标滚轮
   //根据flag拆分节点
   const normalParamsList = [] as Array<FactorParams>;
@@ -291,7 +293,6 @@ export const initHistoryBMapGL = (
         item.marker.addEventListener("click", (e: any) => {
           method(item);
         });
-        item.disableMassClear()
       }
       if (infoWindow) {
         item.marker.addEventListener("click", (e: any) => {
@@ -313,11 +314,11 @@ export const initHistoryBMapGL = (
   }
   if (abnormalBMapGLMarkerParamsList.length > 0) {
     abnormalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
+      item.marker.disableMassClear()
       abnormalBMapGLMarker.push(item.marker);
     });
     abnormalBMapGLMarkerParamsList.forEach((item: any) => {
       if (method) {
-        item.disableMassClear()
         item.marker.addEventListener("click", (e: any) => {
           method(item);
         });
@@ -326,32 +327,14 @@ export const initHistoryBMapGL = (
       // item.marker.hide()
     });
   }
-  //=------------------------------
 
-  //----------自定义控件---------------------
-  // map.addControl(
-  //     getMapController([
-  //       // {
-  //       //   tag: "正常轨迹",
-  //       //   data: normalBMapGLPolyline,
-  //       // },
-  //       // {
-  //       //   tag: "异常轨迹",
-  //       //   data: abnormalBMapGLPolyline,
-  //       // },
-  //       {
-  //         tag: "正常坐标",
-  //         data: normalBMapGLMarker,
-  //       },
-  //       {
-  //         tag: "异常坐标",
-  //         data: abnormalBMapGLMarker,
-  //       },
-  //     ])
-  // );
+  let allPoints = normalBMapGLPoints.concat(abnormalBMapGLPoints)
   const { center, zoom } = map.getViewport(normalBMapGLPoints);
   map.centerAndZoom(center, zoom);
-  return map;
+  return {
+    map,
+    allPoints
+  };
 };
 
 export default initBMapGL;
