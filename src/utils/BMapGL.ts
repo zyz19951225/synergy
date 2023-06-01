@@ -3,7 +3,7 @@ import Marker = BMapGL.Marker;
 import Icon = BMapGL.Icon;
 import Size = BMapGL.Size;
 import Control = BMapGL.Control;
-import {customStyle, darkStyle} from "./xx";
+import {customStyle} from "./xx";
 
 interface FactorParams {
   "Traffic Volume": number;
