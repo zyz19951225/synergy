@@ -43,26 +43,41 @@ interface FactorParams {
     point?: any;
     marker?: any;
 }
-
+//地图实例
 let map: BMapGL.Map;
+//初始化为地图历史轨迹点
 let allPoints: Array<Point>
+//合法轨迹点Point数组
 let legalFactorPointList: Array<Point> = [];
+//合法轨迹点Point数组
 let illegalFactorPointList: Array<Point> = [];
+//轨迹点Point数组
 let allFactorPointList: Array<Point> = [];
+//csv文件数据
 let allData: any;
+//csv非法数据
 let illegalData: any;
+//合法数据当前索引
 let currentNumForLegal = 0;
+//非法数据当前索引
 let currentNumForILLegal = 0;
+//非法数据轨迹
 let abnormalBMapGLPolyline: any;
+//合法数据轨迹
 let normalBMapGLPolyline: any;
+//当前定时器标识
 let currentInterval: any;
+//合法数据定时器
 let legalInterval: any;
+//非法定时器
 let illegalInterval: any;
+
 const SendMessage = () => {
     //当前验证因子
     const [currentFactor, setCurrentFactor] = useState<FactorParams>(
         {} as FactorParams
     );
+    //用户校验弹框
     const [isModalOpen, setIsModalOpen] = useState(false);
     //初始化选中文件并解析展示
     useEffect(() => {
@@ -90,7 +105,7 @@ const SendMessage = () => {
 
     //------------------地图相关----------------------
     //1.获取用户合法数据及非法数据 转换成两个数组
-    //2.定时发送用户校验接口，若通过则再调用发送合法数据接口 完成后向地图上添加标记点 （合法数据发送间隔30s 非法数据发送间隔5s）
+    //2.定时发送用户校验接口，若通过则再调用发送合法数据接口 完成后向地图上添加标记点
     //3.用户校验失败则弹出用户验证界面 校验失败则停止发送因子接口
     //4.用户重新校验完成 则继续
     //定时发送消息接口
@@ -146,7 +161,7 @@ const SendMessage = () => {
     }
 
     /**
-     * @Description: 更新地图点
+     * @Description: 更新地图 增加点（根据Type删除不同的轨迹点）
      * @param     FactorParams
      * @return
      */
@@ -185,9 +200,8 @@ const SendMessage = () => {
         map.addOverlay(curMarker);
     };
 
-
     /**
-     * @Description: 解析csv文件 返回指定数据
+     * @Description: 解析csv文件 返回指定数据（0：所有数据 1：合法数据 3：异常数据）
      * @param   文件名 标识
      * @return     数组
      */
@@ -280,8 +294,7 @@ const SendMessage = () => {
     };
 
     /**
-    * @Description: 切换数据（异常与正常数据）
-    * author:
+    * @Description: 切换数据按钮（异常与正常数据）
     * @param
     * @return
     */
@@ -310,8 +323,6 @@ const SendMessage = () => {
         });
         return Object.fromEntries(newObj);
     };
-    //字段转换  转换为驼峰命名
-
 
     /**
     * @Description:   关闭认证弹框 开启定时器 继续播放视频
@@ -359,11 +370,6 @@ const SendMessage = () => {
         isPlay ? myVideo.play() : myVideo.pause()
     };
 
-    useEffect(() => {
-        if (isModalOpen) {
-        }
-    }, [isModalOpen]);
-
     return (
         <div className={style["body-container"]}>
             <Header></Header>
@@ -403,7 +409,7 @@ const SendMessage = () => {
                                     onChange={changeMode}
                                 />
                             </div>
-                            <Descriptions size='small'>
+                            <Descriptions size='small' column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}>
                                 {
                                     Object.entries(currentFactor).map((item, index) => {
                                         if (item[0] === 'Flag'
