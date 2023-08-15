@@ -3,7 +3,7 @@ import Marker = BMapGL.Marker;
 import Icon = BMapGL.Icon;
 import Size = BMapGL.Size;
 import Control = BMapGL.Control;
-import {customStyle} from "./xx";
+import { customStyle } from "./xx";
 
 interface FactorParams {
   "Traffic Volume": number;
@@ -235,9 +235,9 @@ export const initBMapGL = (
 };
 
 export const initHistoryBMapGL = (
-    results: Array<FactorParams>,
-    method: Function | null,
-    infoWindow: boolean
+  results: Array<FactorParams>,
+  method: Function | null,
+  infoWindow: boolean
 ) => {
   //@ts-ignore
   const map = new BMapGL.Map("container", { style: {styleJson: customStyle } });// 创建地图实例
@@ -247,8 +247,8 @@ export const initHistoryBMapGL = (
   const abnormalParamsList = [] as Array<FactorParams>;
   results.forEach((item: FactorParams) => {
     item.Flag === 1
-        ? normalParamsList.push(item)
-        : abnormalParamsList.push(item);
+      ? normalParamsList.push(item)
+      : abnormalParamsList.push(item);
   });
 
   //将坐标转换为 BMapGL.Point 类型
@@ -275,17 +275,16 @@ export const initHistoryBMapGL = (
   //完善用户信息 增加marker属性
   //=------------------------------
   let normalBMapGLMarkerParamsList = getBMapGLMarkerList(
-      normalBMapGLPointParamsList
+    normalBMapGLPointParamsList
   );
   let abnormalBMapGLMarkerParamsList = getBMapGLMarkerList(
-      abnormalBMapGLPointParamsList,
-      false
+    abnormalBMapGLPointParamsList,
+    false
   );
   if (normalBMapGLMarkerParamsList.length > 0) {
     normalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
-      item.marker.disableMassClear()
+      item.marker.disableMassClear();
       normalBMapGLMarker.push(item.marker);
-
     });
 
     normalBMapGLMarkerParamsList.forEach((item: any) => {
@@ -297,14 +296,14 @@ export const initHistoryBMapGL = (
       if (infoWindow) {
         item.marker.addEventListener("click", (e: any) => {
           map.openInfoWindow(
-              getInfoWindow(
-                  100,
-                  100,
-                  "xx",
-                  `经度：${item.Latitude}
+            getInfoWindow(
+              100,
+              100,
+              "xx",
+              `经度：${item.Latitude}
                    纬度：${item.Longitude}`
-              ),
-              item.point
+            ),
+            item.point
           );
         });
       }
@@ -314,7 +313,7 @@ export const initHistoryBMapGL = (
   }
   if (abnormalBMapGLMarkerParamsList.length > 0) {
     abnormalBMapGLMarkerParamsList.forEach((item: FactorParams) => {
-      item.marker.disableMassClear()
+      item.marker.disableMassClear();
       abnormalBMapGLMarker.push(item.marker);
     });
     abnormalBMapGLMarkerParamsList.forEach((item: any) => {
@@ -328,12 +327,12 @@ export const initHistoryBMapGL = (
     });
   }
 
-  let allPoints = normalBMapGLPoints.concat(abnormalBMapGLPoints)
+  let allPoints = normalBMapGLPoints.concat(abnormalBMapGLPoints);
   const { center, zoom } = map.getViewport(normalBMapGLPoints);
   map.centerAndZoom(center, zoom);
   return {
     map,
-    allPoints
+    allPoints,
   };
 };
 

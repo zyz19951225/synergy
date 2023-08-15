@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="178e928f-a5a7-40a3-a40f-0e7adba55a45" name="Default Changelist" comment="">
+    <list default="true" id="178e928f-a5a7-40a3-a40f-0e7adba55a45" name="Default Changelist" comment="feat:异常点图标替换">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/constant/Constant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/Constant.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/message/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/message/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/BMapGL.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/BMapGL.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/xx.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/xx.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,6 +21,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript JSX File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -28,6 +37,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="2HeewWsk9UNk0wa0UhP7dG8wZ97" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
@@ -37,29 +49,22 @@
     <option name="showMembers" value="true" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/static" />
-    <property name="node.js.detected.package.eslint" value="true" />
-    <property name="node.js.detected.package.standard" value="true" />
-    <property name="node.js.path.for.package.eslint" value="$USER_HOME$/.nvm/versions/node/v16.12.0/bin/node" />
-    <property name="node.js.path.for.package.standard" value="project" />
-    <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="node.js.selected.package.standard" value="" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
-    <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/suju/IdeaProjects/ZjLab/synergy/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/public/static" />
       <recent name="$PROJECT_DIR$/public/static/user" />
+      <recent name="$PROJECT_DIR$/public/static" />
       <recent name="$PROJECT_DIR$/src/component/Message" />
       <recent name="$PROJECT_DIR$/src/asserts" />
       <recent name="$PROJECT_DIR$/src/pages" />
@@ -69,17 +74,26 @@
       <recent name="$PROJECT_DIR$/src/pages/login" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+  <component name="RunManager" selected="npm.build">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.21.1/bin/node" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="prettier" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="prettier" />
+      </scripts>
+      <node-interpreter value="$USER_HOME$/.nvm/versions/node/v14.21.1/bin/node" />
+      <envs />
+      <method v="2" />
     </configuration>
     <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
@@ -93,7 +107,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.build" />
         <item itemvalue="npm.start" />
+        <item itemvalue="npm.prettier" />
       </list>
     </recent_temporary>
   </component>
@@ -110,6 +126,19 @@
       <workItem from="1668992778262" duration="28557000" />
       <workItem from="1669103947186" duration="13661000" />
       <workItem from="1669597772625" duration="65789000" />
+      <workItem from="1685323059981" duration="36454000" />
+      <workItem from="1686012659836" duration="22250000" />
+      <workItem from="1686532755410" duration="4323000" />
+      <workItem from="1689042764265" duration="2212000" />
+      <workItem from="1689064727143" duration="1825000" />
+      <workItem from="1689210572084" duration="1577000" />
+      <workItem from="1689731196117" duration="14384000" />
+      <workItem from="1689941180180" duration="94000" />
+      <workItem from="1689941293385" duration="414000" />
+      <workItem from="1689943214120" duration="673000" />
+      <workItem from="1690177848219" duration="413000" />
+      <workItem from="1691462201368" duration="4309000" />
+      <workItem from="1692077812162" duration="7597000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1669702793526</created>
@@ -139,7 +168,35 @@
       <option name="project" value="LOCAL" />
       <updated>1685091706549</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat:异常点图标替换">
+      <created>1685092063931</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1685092063931</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat:地图信息隐藏；">
+      <created>1685342763163</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1685342763164</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat:6-1运行版本">
+      <created>1685604171614</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1685604171614</updated>
+    </task>
+    <task id="LOCAL-00008" summary="doc:增加注释">
+      <created>1686020821221</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1686020821221</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -156,12 +213,16 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="1" value="TOOL_WINDOW" />
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="1">
           <value>
             <State>
-              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
               <option name="FILTERS">
                 <map>
                   <entry key="branch">
@@ -180,6 +241,7 @@
                   </entry>
                 </map>
               </option>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
             </State>
           </value>
         </entry>
@@ -190,17 +252,15 @@
         </entry>
       </map>
     </option>
-    <option name="OPEN_GENERIC_TABS">
-      <map>
-        <entry key="1" value="TOOL_WINDOW" />
-      </map>
-    </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="feat:1.灰色点显示历史轨迹.去掉线条&#10;     2.用户动态轨迹只显示当前点" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat:1.灰色点显示历史轨迹.去掉线条&#10;     2.用户动态轨迹只显示当前点" />
+    <MESSAGE value="feat:异常点图标替换" />
+    <MESSAGE value="feat:地图信息隐藏；" />
+    <MESSAGE value="feat:6-1运行版本" />
+    <MESSAGE value="doc:增加注释" />
+    <option name="LAST_COMMIT_MESSAGE" value="doc:增加注释" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
