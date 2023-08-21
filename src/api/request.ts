@@ -97,7 +97,7 @@ const requestHandler = <T>(
       .catch((error) => {
         const e = JSON.stringify(error);
         message.warn(`网络错误`);
-        console.log(`网络错误：${e}`);
+        // console.log(`网络错误：${e}`);
         reject(error);
       });
   });
