@@ -85,7 +85,6 @@ const Login = (props: propsType) => {
     }
 
     useEffect(() => {
-        console.log("---------------")
         let timeId = 0
         if (remainingTime < 0) {
             setIsLoginEnabled(true)
@@ -97,16 +96,28 @@ const Login = (props: propsType) => {
             }, 1000)
         }
         return () => {
-            console.log("timeId,")
             clearInterval(timeId)
         }
     }, [remainingTime])
 
 
     useEffect(() => {
-        console.log("============")
         checkUserLoginState()
     }, [])
+
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            checkUserLoginState();
+        };
+
+        if (document.hidden !== undefined) {
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+        }
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, []);
 
 
     const recordErrorUserLogin = () => {
@@ -131,6 +142,7 @@ const Login = (props: propsType) => {
         }
         localStorage.setItem(storageKey, JSON.stringify(loginState));
     }
+
 
 
     //页面异常提示
