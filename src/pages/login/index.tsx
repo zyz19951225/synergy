@@ -67,9 +67,9 @@ const Login = (props: propsType) => {
         // @ts-ignore
         const loginState = JSON.parse(localStorage.getItem(storageKey))
         if (loginState) {
-            const {remainingAttempts, unlockTime} = loginState;
+            const {remainingAttempts, unlockTime,loginDuration} = loginState;
             //判断用户上次错误登陆时间是否在5分钟内
-            if (Date.now() - unlockTime > loginDuration) {
+            if (Date.now() - loginDuration > loginDuration) {
                 localStorage.removeItem(storageKey)
                 setIsLoginEnabled(true)
             } else {
@@ -85,6 +85,7 @@ const Login = (props: propsType) => {
     }
 
     useEffect(() => {
+        console.log("---------------")
         let timeId = 0
         if (remainingTime < 0) {
             setIsLoginEnabled(true)
@@ -103,6 +104,7 @@ const Login = (props: propsType) => {
 
 
     useEffect(() => {
+        console.log("============")
         checkUserLoginState()
     }, [])
 
@@ -111,10 +113,12 @@ const Login = (props: propsType) => {
         setRemainingAttempts(prevState => prevState - 1)
         let loginState
         let unlockTime = Date.now() + delayDuration
+        let loginDuration = Date.now() + delayDuration
         if (remainingAttempts === 0) {
             loginState = {
                 remainingAttempts: remainingAttempts,
                 unlockTime: unlockTime,
+                loginDuration:loginDuration
             };
             setIsLoginEnabled(false)
             setRemainingTime(unlockTime - Date.now())
@@ -122,6 +126,7 @@ const Login = (props: propsType) => {
             loginState = {
                 remainingAttempts: remainingAttempts,
                 unlockTime: null,
+                loginDuration:loginDuration
             }
         }
         localStorage.setItem(storageKey, JSON.stringify(loginState));
